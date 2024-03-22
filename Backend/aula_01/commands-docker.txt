@@ -1,0 +1,8 @@
+docker compose -f <nome_arquivo> up
+docker ps -a
+docker system prune -a
+
+docker exec -it pg psql -U postgres
+
+docker exec -it pg bash
+find / -iname postgres.conf

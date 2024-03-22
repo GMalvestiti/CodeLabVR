@@ -1,0 +1,3 @@
+npx ts-node src/app.ts > executa app.ts diretamente com typescript
+
+npx tsc --build > build para produção (compilador ts para js)
