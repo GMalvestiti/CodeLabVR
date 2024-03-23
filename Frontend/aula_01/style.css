@@ -1,0 +1,21 @@
+    div {
+        height: 100px;
+        width: 100px;
+        color: white;
+        background: blue;
+        font-size: 40px;
+    }
+
+    #teste2 {
+        position: sticky;
+        top: 10px;
+        background: red;
+    }
+
+    #teste3 {
+        background: green;
+    }
+
+    #teste3:hover {
+        background-color: brown;
+    }
