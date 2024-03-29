@@ -1,0 +1,9 @@
+create database codelab;
+
+create table usuario (
+  id serial not null,
+  nome varchar(60) not null,
+  email varchar not null,
+  password varchar not null,
+  admin boolean not null
+);
