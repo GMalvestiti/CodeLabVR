@@ -4,6 +4,8 @@ services:
   app:
     container_name: app
     # image: codelab-node:1.0
+    depends_on:
+      - db
     build:
       context: .docker/node
       dockerfile: Dockerfile
