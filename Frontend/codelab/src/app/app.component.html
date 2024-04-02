@@ -1,0 +1,7 @@
+<h1>Olá, {{ getNome() }}</h1> <!-- Interpolation -->
+
+<h2 [innerText]="getNome()"></h2> <!-- Property Binding -->
+
+<button (click)="alert()">Alert</button> <!-- Event Binding -->
+
+<router-outlet />
