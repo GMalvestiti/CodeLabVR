@@ -1,28 +1,23 @@
-<h1 *ngIf="condition; else naoVerdadeiro" [ngClass]="{ 'classe-teste': conditionClasse }">{{ nome }}</h1> <!-- Diretiva Estrutural -->
+<!-- <h1>{{ nomeComponentePai }}</h1> -->
 
-<h2 [ngSwitch]="number" clMudaBackground>
-  <h2 *ngSwitchCase="1">Número 1</h2>
-  <h2 *ngSwitchCase="2">Número 2</h2>
-  <h2 *ngSwitchCase="3">Número 3</h2>
-  <h2 *ngSwitchDefault>Default</h2>
-</h2>
+<!-- <p #paragrafoRef></p> -->
 
-<ul *ngFor="let item of array; let i = index">
-  <li [class.classe-teste3]="false">Valor: {{ item }} - Index: {{ i }}</li>
-</ul>
+<!-- <cl-teste [nomeComponenteFilho]="nomeComponentePai" (mudaNome)="mudaNomeComponentePai($event)"></cl-teste> -->
 
-<h2 [ngStyle]="{ 'color': colorNgStyle }">
-  ngStyle
-</h2>
+<!-- <cl-teste [nomeComponenteFilho]="nomeComponentePai"></cl-teste>
+<cl-teste [nomeComponenteFilho]="'Gustavo'"></cl-teste>
+<cl-teste [nomeComponenteFilho]="'Maria'"></cl-teste> -->
 
-<h2>Hoje é: {{ today | date : "EEEE',' dd/MM/YYYY 'às' hh:mm" }}</h2> <!-- Pipes -->
+<!-- <ng-template #dinamico></ng-template> -->
 
-<h2>{{ nome | lowercase | uppercase }}</h2>
+<!-- <cl-header>
+  <h3>Login</h3>
+  <h2>Configurações</h2>
+</cl-header> -->
 
-<h2>{{ dinheiro | currency: 'BRL' }}</h2>
+<cl-header>
+  <cl-teste1></cl-teste1>
+  <cl-teste2></cl-teste2>
+</cl-header>
 
-<p>Espere... {{ promise | async }}</p> <!-- Async Pipes -->
-
-<p>Custom Pipe: {{ nome | teste : 10 : 'eu' }}</p> <!-- Custom Pipes -->
-
-<ng-template #naoVerdadeiro><h1 [ngClass]="arrayDeClasses">Condição não verdadeira</h1>
+<h1>{{ titulo }}</h1>
