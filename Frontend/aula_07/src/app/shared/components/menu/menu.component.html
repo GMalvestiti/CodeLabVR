@@ -1,0 +1,6 @@
+<aside>
+  <div *ngFor="let menuItem of menuItems" class="menu-item">
+    <mat-icon class="icon" [fontIcon]="menuItem.icon"></mat-icon>
+    <span class="label">{{ menuItem.label }}</span>
+  </div>
+</aside>
