@@ -6,6 +6,7 @@ aside {
   height: 100%;
   width: 4.5rem;
   background-color: var(--color-gray-50);
+  border-right: 0.1px solid #0000003b;
 
   .menu-item {
     display: flex;
@@ -20,11 +21,11 @@ aside {
       color: var(--color-primary);
     }
 
-    .icon {
+    &__icon {
       transform: scale(1.3);
     }
 
-    .label {
+    &__label {
       font-size: 0.7rem;
       margin-top: 0.2rem;
     }
