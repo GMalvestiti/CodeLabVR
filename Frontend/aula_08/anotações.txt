@@ -1,2 +1,11 @@
-router
-página erro 404
+Lição: aula 08 - 3:00 (back-action)
+
+Observables
+
+rxjs
+forms
+pipe()
+tap()
+map()
+
+service (angular)

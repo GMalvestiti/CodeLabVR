@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActionBarComponent } from '../action-bar/action-bar.component';
 
 @Component({
@@ -8,4 +8,6 @@ import { ActionBarComponent } from '../action-bar/action-bar.component';
   templateUrl: './page-layout.component.html',
   styleUrl: './page-layout.component.scss',
 })
-export class PageLayoutComponent {}
+export class PageLayoutComponent {
+  @Input({ required: true }) title!: string;
+}

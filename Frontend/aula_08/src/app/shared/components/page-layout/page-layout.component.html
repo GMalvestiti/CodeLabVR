@@ -8,4 +8,11 @@
   </ng-container>
 </cl-action-bar>
 
-<ng-content></ng-content>
+<div class="page-card">
+  <header>
+    <h1>{{ title }}</h1>
+    <div class="separator"></div>
+  </header>
+
+  <ng-content select="[content]"></ng-content>
+</div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -9,7 +9,9 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './save-add-action.component.scss',
 })
 export class SaveAddActionComponent {
+  @Output() saveAddEmitter: EventEmitter<void> = new EventEmitter<void>();
+
   saveAdd(): void {
-    console.log('salvar e adicionar');
+    this.saveAddEmitter.emit();
   }
 }

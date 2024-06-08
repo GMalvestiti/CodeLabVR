@@ -16,4 +16,12 @@ import { PageLayoutComponent } from '../../../shared/components/page-layout/page
   templateUrl: './usuario-cadastro.component.html',
   styleUrl: './usuario-cadastro.component.scss',
 })
-export class UsuarioCadastroComponent {}
+export class UsuarioCadastroComponent {
+  saveAdd(): void {
+    console.log('save add');
+  }
+
+  save(): void {
+    console.log('save');
+  }
+}
