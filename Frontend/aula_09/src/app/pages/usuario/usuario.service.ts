@@ -1,4 +1,8 @@
 import { Injectable } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
+import { filterSortPageData } from '../../shared/helpers/table.helper';
+import { IFindAllResponse } from '../../shared/interfaces/find-all-response.interface';
 import { IUsuario } from './usuario.interface';
 
 @Injectable({
@@ -92,7 +96,22 @@ export class UsuarioService {
     },
   ];
 
-  async findAll() {
-    return Promise.resolve(this.mockedData);
+  async findAll(
+    sort: Sort,
+    page: PageEvent,
+    filter: Record<string, unknown>,
+  ): Promise<IFindAllResponse<IUsuario>> {
+    const sortedFilteredData = filterSortPageData(
+      this.mockedData,
+      sort,
+      page,
+      filter,
+    );
+
+    return Promise.resolve({
+      message: '',
+      data: sortedFilteredData,
+      count: this.mockedData.length,
+    });
   }
 }

@@ -1,0 +1,6 @@
+MatTable >>> usuario-consulta.component.html
+MatTableDataSource
+
+angular services
+
+Subject >>> rxjs
