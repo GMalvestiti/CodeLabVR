@@ -1,15 +1,15 @@
-<cl-page-layout title="Consulta de Usuário">
+<cl-page-layout [title]="'Consulta de Usuário'">
   <ng-container leftActions>
     <cl-back-action></cl-back-action>
     <cl-add-action></cl-add-action>
   </ng-container>
 
   <ng-container content>
-    <form (formGroup)="(filterFormGroup)" class="filters">
-      <mat-form-field>
-        <input type="text" matInput placeholder="000001" formControlName="id" />
-      </mat-form-field>
-    </form>
+    <cl-form-fields-list
+      [form]="filterFormGroup"
+      [fields]="filterFields"
+      (changeEmitter)="search()"
+    ></cl-form-fields-list>
 
     <table
       mat-table

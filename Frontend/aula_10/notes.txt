@@ -4,3 +4,8 @@ MatTableDataSource
 angular services
 
 Subject >>> rxjs
+
+display: grid >>> form-fields-list.component.scss
+
+classes abstratas typescript
+override

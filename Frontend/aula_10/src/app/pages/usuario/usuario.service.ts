@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
-import { Sort } from '@angular/material/sort';
-import { filterSortPageData } from '../../shared/helpers/table.helper';
-import { IFindAllResponse } from '../../shared/interfaces/find-all-response.interface';
+import { BaseResourceService } from '../../shared/classes/base-resource/base-resource.service';
 import { IUsuario } from './usuario.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UsuarioService {
+export class UsuarioService extends BaseResourceService<IUsuario> {
   mockedData: IUsuario[] = [
     {
       id: 1,
@@ -95,23 +92,4 @@ export class UsuarioService {
       ativo: true,
     },
   ];
-
-  async findAll(
-    sort: Sort,
-    page: PageEvent,
-    filter: Record<string, unknown>,
-  ): Promise<IFindAllResponse<IUsuario>> {
-    const sortedFilteredData = filterSortPageData(
-      this.mockedData,
-      sort,
-      page,
-      filter,
-    );
-
-    return Promise.resolve({
-      message: '',
-      data: sortedFilteredData,
-      count: this.mockedData.length,
-    });
-  }
 }
