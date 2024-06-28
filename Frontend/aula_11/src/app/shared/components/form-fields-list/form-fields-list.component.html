@@ -1,31 +1,9 @@
-<form [formGroup]="form" class="form-fields">
+<div class="filters">
   <ng-container *ngFor="let field of fields">
-    <ng-container [ngSwitch]="field.type">
-      <div [class]="field.class" class="form-field" *ngSwitchCase="typeInput">
-        <span class="field-label">{{ field.label }}</span>
-        <mat-form-field>
-          <input
-            type="text"
-            matInput
-            [placeholder]="field.placeholder"
-            [formControlName]="field.formControlName"
-          />
-        </mat-form-field>
-      </div>
-
-      <div [class]="field.class" class="form-field" *ngSwitchCase="typeSelect">
-        <span class="field-label">{{ field.label }}</span>
-        <mat-form-field>
-          <mat-select [formControlName]="field.formControlName">
-            <mat-option
-              *ngFor="let option of field.options"
-              [value]="option.value"
-            >
-              {{ option.label }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </ng-container>
+    <cl-form-field
+      [field]="field"
+      [form]="form"
+      [class]="field.class"
+    ></cl-form-field>
   </ng-container>
-</form>
+</div>

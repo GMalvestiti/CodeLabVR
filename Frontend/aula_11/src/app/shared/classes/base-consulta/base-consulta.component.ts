@@ -21,9 +21,11 @@ export abstract class BaseConsultaComponent<TData>
   sort: Sort = { active: 'id', direction: 'asc' };
   page: PageEvent = { pageIndex: 0, pageSize: 5, length: 0 };
 
-  get filter() {
+  get filterValues() {
     return this.filterFormGroup.getRawValue();
   }
+
+  loading = false;
 
   constructor(private readonly _service: BaseResourceService<TData>) {}
 
@@ -36,11 +38,18 @@ export abstract class BaseConsultaComponent<TData>
   }
 
   search(): void {
+    this.loading = true;
+
     this._service
-      .findAll(this.sort, this.page, this.filter)
+      .findAll(this.sort, this.page, this.filterValues)
       .then((response) => {
         this.dataSource.data = response.data;
         this.paginatorEl.length = response.count;
+      })
+      .finally(() => {
+        setTimeout(() => {
+          this.loading = false;
+        }, 2000);
       });
   }
 

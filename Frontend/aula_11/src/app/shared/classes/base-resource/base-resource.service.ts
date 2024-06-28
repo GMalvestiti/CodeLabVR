@@ -30,4 +30,8 @@ export abstract class BaseResourceService<TData> {
       count: this.mockedData.length,
     });
   }
+
+  async create(payload: TData): Promise<TData> {
+    return Promise.resolve({ ...payload, id: 1 });
+  }
 }

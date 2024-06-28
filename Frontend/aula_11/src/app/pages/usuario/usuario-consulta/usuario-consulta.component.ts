@@ -16,6 +16,7 @@ import { AddActionComponent } from '../../../shared/components/action-bar/add-ac
 import { BackActionComponent } from '../../../shared/components/action-bar/back-action/back-action.component';
 import { FormFieldsListComponent } from '../../../shared/components/form-fields-list/form-fields-list.component';
 import { PageLayoutComponent } from '../../../shared/components/page-layout/page-layout.component';
+import { ProgressLoadingComponent } from '../../../shared/components/progress-loading/progress-loading/progress-loading.component';
 import { EFieldType } from '../../../shared/enums/field-type.enum';
 import {
   IFormField,
@@ -43,6 +44,7 @@ const imports = [
   ...form,
   CommonModule,
   PageLayoutComponent,
+  ProgressLoadingComponent,
 ];
 
 @Component({
