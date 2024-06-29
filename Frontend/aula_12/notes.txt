@@ -1,0 +1,17 @@
+MatTable >>> usuario-consulta.component.html
+MatTableDataSource
+
+angular services
+
+Subject >>> rxjs
+
+display: grid >>> form-fields-list.component.scss
+
+classes abstratas typescript
+override
+
+typescript get
+
+typescript Record
+
+angular constructor injector >>> base-cadastro.component.ts
