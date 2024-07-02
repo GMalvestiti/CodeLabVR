@@ -1,8 +1,15 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Injector,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
 import { getPaginatorIntl } from '../../helpers/paginator.intl.helper';
 import { IFormField } from '../../interfaces/form-field.interface';
 import { BaseResourceService } from '../base-resource/base-resource.service';
@@ -27,7 +34,16 @@ export abstract class BaseConsultaComponent<TData>
 
   loading = false;
 
-  constructor(private readonly _service: BaseResourceService<TData>) {}
+  private readonly _router!: Router;
+  private readonly _route!: ActivatedRoute;
+
+  constructor(
+    private readonly _service: BaseResourceService<TData>,
+    protected readonly _injector: Injector,
+  ) {
+    this._router = this._injector.get(Router);
+    this._route = this._injector.get(ActivatedRoute);
+  }
 
   ngOnInit(): void {
     this.search();
@@ -61,5 +77,11 @@ export abstract class BaseConsultaComponent<TData>
   applyPage(page: PageEvent): void {
     this.page = page;
     this.search();
+  }
+
+  editar(id: number): void {
+    this._router.navigate([`../editar/${id}`], {
+      relativeTo: this._route,
+    });
   }
 }

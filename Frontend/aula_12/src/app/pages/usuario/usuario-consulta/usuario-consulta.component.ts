@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -7,6 +7,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -31,6 +32,7 @@ const actions = [BackActionComponent, AddActionComponent];
 const table = [MatTableModule, MatSortModule, MatPaginatorModule];
 const pipes = [BoolToTextPipe, FormatIdPipe];
 const form = [
+  MatIconModule,
   MatInputModule,
   MatFormFieldModule,
   ReactiveFormsModule,
@@ -42,9 +44,9 @@ const imports = [
   ...table,
   ...pipes,
   ...form,
-  CommonModule,
   PageLayoutComponent,
   ProgressLoadingComponent,
+  CommonModule,
 ];
 
 @Component({
@@ -55,7 +57,7 @@ const imports = [
   styleUrl: './usuario-consulta.component.scss',
 })
 export class UsuarioConsultaComponent extends BaseConsultaComponent<IUsuario> {
-  displayedColumns: string[] = ['id', 'nome', 'email', 'admin'];
+  displayedColumns: string[] = ['id', 'nome', 'email', 'admin', 'acoes'];
 
   filterFormGroup = new FormGroup({
     id: new FormControl(null),
@@ -111,7 +113,10 @@ export class UsuarioConsultaComponent extends BaseConsultaComponent<IUsuario> {
     },
   ];
 
-  constructor(private _usuarioService: UsuarioService) {
-    super(_usuarioService);
+  constructor(
+    private _usuarioService: UsuarioService,
+    private readonly _injectorLocal: Injector,
+  ) {
+    super(_usuarioService, _injectorLocal);
   }
 }

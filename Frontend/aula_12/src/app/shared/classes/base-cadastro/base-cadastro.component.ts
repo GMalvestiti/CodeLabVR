@@ -1,11 +1,19 @@
-import { Component, Injector } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
+import {
+  CanComponentDeactivate,
+  TCanDeactivate,
+} from '../../guards/pending-changes.guard';
 import { IFormField } from '../../interfaces/form-field.interface';
 import { BaseResourceService } from '../base-resource/base-resource.service';
 
 @Component({ template: '' })
-export abstract class BaseCadastroComponent<TData extends { id: number }> {
+export abstract class BaseCadastroComponent<TData extends { id: number }>
+  implements OnInit, CanComponentDeactivate
+{
   abstract cadastroFormGroup: FormGroup;
   abstract cadastroFields: IFormField[];
 
@@ -15,6 +23,7 @@ export abstract class BaseCadastroComponent<TData extends { id: number }> {
 
   private readonly _router!: Router;
   private readonly _route!: ActivatedRoute;
+  private readonly _dialog!: MatDialog;
 
   constructor(
     private readonly _service: BaseResourceService<TData>,
@@ -22,6 +31,47 @@ export abstract class BaseCadastroComponent<TData extends { id: number }> {
   ) {
     this._router = this._injector.get(Router);
     this._route = this._injector.get(ActivatedRoute);
+    this._dialog = this._injector.get(MatDialog);
+  }
+
+  idEdit!: number;
+
+  ngOnInit(): void {
+    this.handleEdit();
+  }
+
+  protected handleEdit(): void {
+    const id = this._route.snapshot.params['id'];
+
+    if (!id) {
+      return;
+    }
+
+    this.idEdit = Number(id);
+
+    this._service.findOneById(this.idEdit).then((response) => {
+      if (!response) {
+        this.navigateToCadastro();
+        return;
+      }
+
+      this.patchFormForEdit(response);
+    });
+  }
+
+  protected buildEditValues(payload: TData): TData {
+    return payload;
+  }
+
+  protected patchFormForEdit(payload: TData): void {
+    const values = this.buildEditValues(payload);
+    this.cadastroFormGroup.patchValue(values);
+  }
+
+  private navigateToCadastro(): void {
+    this._router.navigate([`../../cadastro`], {
+      relativeTo: this._route,
+    });
   }
 
   save(addNew: boolean = false): void {
@@ -31,6 +81,24 @@ export abstract class BaseCadastroComponent<TData extends { id: number }> {
       return;
     }
 
+    this.idEdit ? this.saveEditar(addNew) : this.saveCadastro(addNew);
+  }
+
+  protected saveEditar(addNew: boolean): void {
+    this._service.updateById(this.idEdit, this.formValues).then((response) => {
+      if (addNew) {
+        this.navigateToCadastro();
+      } else {
+        this.actionsAfterUpdate(response);
+      }
+    });
+  }
+
+  protected actionsAfterUpdate(data: TData): void {
+    this.cadastroFormGroup.markAsUntouched();
+  }
+
+  protected saveCadastro(addNew: boolean): void {
     this._service.create(this.formValues).then(({ id }) => {
       if (addNew) {
         this.cadastroFormGroup.reset();
@@ -40,5 +108,20 @@ export abstract class BaseCadastroComponent<TData extends { id: number }> {
         });
       }
     });
+  }
+
+  canDeactivate(): TCanDeactivate {
+    if (!this.cadastroFormGroup.touched) return true;
+
+    const ref = this._dialog.open(ConfirmDialogComponent, {
+      disableClose: true,
+      data: {
+        titleText: 'Ações Pendentes',
+        contentText:
+          'Você possui alterações que não foram salvas, deseja mesmo sair da página?',
+      },
+    });
+
+    return ref.afterClosed();
   }
 }

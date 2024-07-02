@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { pendingChangesGuard } from '../../shared/guards/pending-changes.guard';
 import { UsuarioCadastroComponent } from './usuario-cadastro/usuario-cadastro.component';
 import { UsuarioConsultaComponent } from './usuario-consulta/usuario-consulta.component';
 
@@ -13,6 +14,12 @@ export const usuarioRoutes: Routes = [
       {
         path: 'cadastro',
         component: UsuarioCadastroComponent,
+        canDeactivate: [pendingChangesGuard],
+      },
+      {
+        path: 'editar/:id',
+        component: UsuarioCadastroComponent,
+        canDeactivate: [pendingChangesGuard],
       },
       {
         path: '',

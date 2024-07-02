@@ -25,9 +25,16 @@ const actions = [
   styleUrl: './usuario-cadastro.component.scss',
 })
 export class UsuarioCadastroComponent extends BaseCadastroComponent<IUsuario> {
+  constructor(
+    private readonly _usuarioService: UsuarioService,
+    protected readonly _injectorLocal: Injector,
+  ) {
+    super(_usuarioService, _injectorLocal);
+  }
+
   cadastroFormGroup = new FormGroup({
     id: new FormControl({ value: null, disabled: true }),
-    nome: new FormControl(null, [Validators.required, Validators.minLength(5)]),
+    nome: new FormControl(null, [Validators.required, Validators.minLength(4)]),
     email: new FormControl(null, [Validators.required, Validators.email]),
     admin: new FormControl(false),
   });
@@ -62,11 +69,4 @@ export class UsuarioCadastroComponent extends BaseCadastroComponent<IUsuario> {
       class: 'grid-1',
     },
   ];
-
-  constructor(
-    private readonly _usuarioService: UsuarioService,
-    protected readonly _injectorLocal: Injector,
-  ) {
-    super(_usuarioService, _injectorLocal);
-  }
 }

@@ -15,3 +15,9 @@ typescript get
 typescript Record
 
 angular constructor injector >>> base-cadastro.component.ts
+
+tarefa 14:52
+
+protected >>> para poder acessar e sobrescrever
+
+guards do angular
