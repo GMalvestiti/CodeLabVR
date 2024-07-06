@@ -22,7 +22,9 @@
     </mat-form-field>
 
     <ng-container *ngSwitchCase="typeCheckbox">
-      <mat-checkbox [formControlName]="field.formControlName"
+      <mat-checkbox
+        [formControlName]="field.formControlName"
+        class="field-checkbox"
         ><span class="field-label">{{ label }}</span></mat-checkbox
       >
     </ng-container>

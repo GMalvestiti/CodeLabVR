@@ -1,7 +1,9 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SnackbarComponent } from '../../components/snackbar/snackbar.component';
 import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import {
   CanComponentDeactivate,
@@ -24,6 +26,7 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
   private readonly _router!: Router;
   private readonly _route!: ActivatedRoute;
   private readonly _dialog!: MatDialog;
+  private readonly _snackBar!: MatSnackBar;
 
   constructor(
     private readonly _service: BaseResourceService<TData>,
@@ -32,6 +35,7 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
     this._router = this._injector.get(Router);
     this._route = this._injector.get(ActivatedRoute);
     this._dialog = this._injector.get(MatDialog);
+    this._snackBar = this._injector.get(MatSnackBar);
   }
 
   idEdit!: number;
@@ -49,22 +53,22 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
 
     this.idEdit = Number(id);
 
-    this._service.findOneById(this.idEdit).then((response) => {
+    this._service.findOneById(this.idEdit).subscribe((response) => {
       if (!response) {
         this.navigateToCadastro();
         return;
       }
 
-      this.patchFormForEdit(response);
+      this.patchFormForEdit(response.data);
     });
   }
 
-  protected buildEditValues(payload: TData): TData {
+  protected buildPatchValuesFormEdit(payload: TData): TData {
     return payload;
   }
 
   protected patchFormForEdit(payload: TData): void {
-    const values = this.buildEditValues(payload);
+    const values = this.buildPatchValuesFormEdit(payload);
     this.cadastroFormGroup.patchValue(values);
   }
 
@@ -85,13 +89,16 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
   }
 
   protected saveEditar(addNew: boolean): void {
-    this._service.updateById(this.idEdit, this.formValues).then((response) => {
-      if (addNew) {
-        this.navigateToCadastro();
-      } else {
-        this.actionsAfterUpdate(response);
-      }
-    });
+    this._service
+      .updateById(this.idEdit, this.formValues)
+      .subscribe((response) => {
+        if (addNew) {
+          this.cadastroFormGroup.markAsUntouched();
+          this.navigateToCadastro();
+        } else {
+          this.actionsAfterUpdate(response.data);
+        }
+      });
   }
 
   protected actionsAfterUpdate(data: TData): void {
@@ -99,10 +106,14 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
   }
 
   protected saveCadastro(addNew: boolean): void {
-    this._service.create(this.formValues).then(({ id }) => {
+    this._service.create(this.formValues).subscribe((response) => {
+      this.openSnackBar();
+      const id: number = response.data.id;
+
       if (addNew) {
         this.cadastroFormGroup.reset();
       } else {
+        this.cadastroFormGroup.markAsUntouched();
         this._router.navigate([`../editar/${id}`], {
           relativeTo: this._route,
         });
@@ -123,5 +134,11 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
     });
 
     return ref.afterClosed();
+  }
+
+  protected openSnackBar() {
+    this._snackBar.openFromComponent(SnackbarComponent, {
+      duration: 5 * 1000,
+    });
   }
 }

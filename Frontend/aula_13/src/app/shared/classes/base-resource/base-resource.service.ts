@@ -1,47 +1,58 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, Injector } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
-import { filterSortPageData } from '../../helpers/table.helper';
-import { IFindAllResponse } from '../../interfaces/find-all-response.interface';
+import { Observable, take } from 'rxjs';
+import { handleFindAllFilter } from '../../helpers/filter.helper';
+import { IResponse } from '../../interfaces/response.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export abstract class BaseResourceService<TData> {
-  abstract mockedData: TData[];
+  private readonly _http!: HttpClient;
+  private url!: string;
 
-  constructor() {}
+  constructor(
+    protected readonly _injector: Injector,
+    port: number,
+    path: string,
+  ) {
+    this._http = this._injector.get(HttpClient);
+    this.url = `http://localhost:${port}/api/v1/${path}`;
+  }
 
-  async findAll(
+  findAll(
     sort: Sort,
     page: PageEvent,
     filter: Record<string, unknown>,
-  ): Promise<IFindAllResponse<TData>> {
-    const sortedFilteredData = filterSortPageData(
-      this.mockedData,
-      sort,
-      page,
-      filter,
-    );
-
-    return Promise.resolve({
-      message: '',
-      data: sortedFilteredData,
-      count: this.mockedData.length,
+  ): Observable<IResponse<TData[]>> {
+    const orderParam = JSON.stringify({
+      column: sort.active,
+      sort: sort.direction,
     });
+    const pageParam = page.pageIndex;
+    const sizeParam = page.pageSize;
+    const filterQuery = handleFindAllFilter(filter);
+
+    return this._http
+      .get<
+        IResponse<TData[]>
+      >(`${this.url}/${pageParam}/${sizeParam}/${orderParam}?filter=${filterQuery}`)
+      .pipe(take(1));
   }
 
-  async create(data: TData): Promise<TData> {
-    return Promise.resolve({ ...data, id: 1 });
+  create(data: TData): Observable<IResponse<TData>> {
+    return this._http.post<IResponse<TData>>(this.url, data).pipe(take(1));
   }
 
-  async updateById(id: number, data: TData): Promise<TData> {
-    return Promise.resolve({ ...data, id });
+  updateById(id: number, data: TData): Observable<IResponse<TData>> {
+    return this._http
+      .patch<IResponse<TData>>(`${this.url}/${id}`, data)
+      .pipe(take(1));
   }
 
-  async findOneById(id: number): Promise<TData | undefined> {
-    const data = this.mockedData as (TData & { id: number })[];
-    const value = data.find((item) => item.id === id);
-    return Promise.resolve(value);
+  findOneById(id: number): Observable<IResponse<TData>> {
+    return this._http.get<IResponse<TData>>(`${this.url}/${id}`).pipe(take(1));
   }
 }

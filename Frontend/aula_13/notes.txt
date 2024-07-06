@@ -16,7 +16,7 @@ typescript Record
 
 angular constructor injector >>> base-cadastro.component.ts
 
-tarefa 14:52
+tarefa 00:14:52 1:46:00 (snack-bar)
 
 protected >>> para poder acessar e sobrescrever
 
