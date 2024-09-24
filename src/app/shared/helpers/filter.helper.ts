@@ -6,12 +6,12 @@ export interface IFindAllFilter {
 }
 
 export function handleFindAllFilter(
-  originalFiltter: Record<string, unknown>,
+  originalFilter: Record<string, unknown>,
 ): string {
   const filters: IFindAllFilter[] = [];
 
-  Object.keys(originalFiltter).forEach((key) => {
-    const value = originalFiltter[key] as TFindAllFilterValue;
+  Object.keys(originalFilter).forEach((key) => {
+    const value = originalFilter[key] as TFindAllFilterValue;
 
     if (typeof value !== 'boolean' && !value) return;
 

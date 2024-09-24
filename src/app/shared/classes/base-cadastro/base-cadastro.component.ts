@@ -81,7 +81,7 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
   save(addNew: boolean = false): void {
     this.cadastroFormGroup.markAllAsTouched();
 
-    if (this.cadastroFormGroup.invalid) {
+    if (!this.cadastroFormGroup.valid) {
       return;
     }
 
