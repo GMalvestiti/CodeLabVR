@@ -1,11 +1,17 @@
-import { Component, inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
+  MAT_SNACK_BAR_DATA,
   MatSnackBarAction,
   MatSnackBarActions,
   MatSnackBarLabel,
   MatSnackBarRef,
 } from '@angular/material/snack-bar';
+
+export interface ISnackBarData {
+  message: string;
+  buttonText: string;
+}
 
 @Component({
   selector: 'cl-snackbar',
@@ -20,8 +26,14 @@ import {
   styleUrl: './snackbar.component.scss',
 })
 export class SnackbarComponent {
-  message: string = 'mensagem teste';
-  buttonText: string = 'fechar';
+  message: string = '<mensagem>';
+  buttonText: string = '<botão>';
 
-  snackBarRef = inject(MatSnackBarRef);
+  constructor(
+    protected readonly snackBarRef: MatSnackBarRef<SnackbarComponent>,
+    @Inject(MAT_SNACK_BAR_DATA) data: ISnackBarData,
+  ) {
+    this.message = data.message;
+    this.buttonText = data.buttonText;
+  }
 }

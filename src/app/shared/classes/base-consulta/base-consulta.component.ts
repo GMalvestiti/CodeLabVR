@@ -61,7 +61,7 @@ export abstract class BaseConsultaComponent<TData>
       .subscribe((response) => {
         this.dataSource.data = response.data;
         this.paginatorEl.length = response.count as number;
-        setTimeout(() => (this.loading = false), 1000);
+        this.loading = false;
       });
   }
 

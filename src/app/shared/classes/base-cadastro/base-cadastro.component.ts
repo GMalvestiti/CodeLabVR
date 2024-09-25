@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SnackbarComponent } from '../../components/snackbar/snackbar.component';
 import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
+import { EMensagem } from '../../enums/mensagem.enum';
 import {
   CanComponentDeactivate,
   TCanDeactivate,
@@ -92,6 +93,7 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
     this._service
       .updateById(this.idEdit, this.formValues)
       .subscribe((response) => {
+        this.openSnackBar(EMensagem.CADASTRO_ATUALIZADO, EMensagem.FECHAR);
         if (addNew) {
           this.cadastroFormGroup.markAsUntouched();
           this.navigateToCadastro();
@@ -107,7 +109,7 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
 
   protected saveCadastro(addNew: boolean): void {
     this._service.create(this.formValues).subscribe((response) => {
-      this.openSnackBar();
+      this.openSnackBar(EMensagem.CADASTRO_SUCESSO, EMensagem.FECHAR);
       const id: number = response.data.id;
 
       if (addNew) {
@@ -136,9 +138,13 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
     return ref.afterClosed();
   }
 
-  protected openSnackBar() {
+  protected openSnackBar(message: string, buttonText: string) {
     this._snackBar.openFromComponent(SnackbarComponent, {
       duration: 5 * 1000,
+      data: {
+        message,
+        buttonText,
+      },
     });
   }
 }
