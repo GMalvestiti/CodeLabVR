@@ -12,4 +12,5 @@ export interface IFormField {
   placeholder: string;
   class: string;
   options?: ILabelValue[];
+  password?: boolean;
 }

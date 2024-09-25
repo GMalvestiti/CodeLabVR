@@ -1,3 +1,13 @@
-.snackbar {
+:host {
   display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .snackbar-message {
+    color: var(--color-default);
+  }
+
+  .snackbar-close {
+    font-size: 0.8rem;
+  }
 }

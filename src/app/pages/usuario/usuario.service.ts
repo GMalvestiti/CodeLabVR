@@ -8,6 +8,7 @@ import { IUsuario } from './usuario.interface';
 })
 export class UsuarioService extends BaseResourceService<IUsuario> {
   constructor(protected readonly _injectorLocal: Injector) {
+    // TODO: remove port
     super(_injectorLocal, EAPIPort.USUARIO, EAPIPath.USUARIO);
   }
 }

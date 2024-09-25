@@ -1,13 +1,11 @@
-<div class="snackbar">
-  <span class="snackbar-message" matSnackBarLabel> {{ message }} </span>
-  <span matSnackBarActions>
-    <button
-      class="snackbar-close"
-      mat-button
-      matSnackBarAction
-      (click)="snackBarRef.dismissWithAction()"
-    >
-      {{ buttonText }}
-    </button>
-  </span>
-</div>
+<span class="snackbar-message" matSnackBarLabel> {{ message }} </span>
+<span matSnackBarActions>
+  <button
+    class="snackbar-close"
+    mat-button
+    matSnackBarAction
+    (click)="close()"
+  >
+    {{ buttonText }}
+  </button>
+</span>

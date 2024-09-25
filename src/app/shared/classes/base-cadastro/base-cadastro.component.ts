@@ -12,6 +12,8 @@ import {
 } from '../../guards/pending-changes.guard';
 import { IFormField } from '../../interfaces/form-field.interface';
 import { BaseResourceService } from '../base-resource/base-resource.service';
+import { ESnackbarType } from '../../enums/snackbar-type.enum';
+import { ISnackBarData } from '../../interfaces/snackbar-data.interface';
 
 @Component({ template: '' })
 export abstract class BaseCadastroComponent<TData extends { id: number }>
@@ -52,12 +54,20 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
       return;
     }
 
+    if (isNaN(Number(id))) {
+      return this.navigateToCadastro();
+    }
+
     this.idEdit = Number(id);
 
     this._service.findOneById(this.idEdit).subscribe((response) => {
-      if (!response) {
-        this.navigateToCadastro();
-        return;
+      if (!response.data) {
+        this.openSnackBar({
+          message: EMensagem.REGISTRO_NAO_ENCONTRADO,
+          buttonText: EMensagem.FECHAR,
+          type: ESnackbarType.warning,
+        });
+        return this.navigateToCadastro();
       }
 
       this.patchFormForEdit(response.data);
@@ -83,6 +93,11 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
     this.cadastroFormGroup.markAllAsTouched();
 
     if (!this.cadastroFormGroup.valid) {
+      this.openSnackBar({
+        message: EMensagem.CAMPOS_NAO_PREENCHIDOS,
+        buttonText: EMensagem.FECHAR,
+        type: ESnackbarType.warning,
+      });
       return;
     }
 
@@ -93,7 +108,12 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
     this._service
       .updateById(this.idEdit, this.formValues)
       .subscribe((response) => {
-        this.openSnackBar(EMensagem.CADASTRO_ATUALIZADO, EMensagem.FECHAR);
+        this.openSnackBar({
+          message: response.message,
+          buttonText: EMensagem.FECHAR,
+          type: ESnackbarType.success,
+        });
+
         if (addNew) {
           this.cadastroFormGroup.markAsUntouched();
           this.navigateToCadastro();
@@ -109,7 +129,12 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
 
   protected saveCadastro(addNew: boolean): void {
     this._service.create(this.formValues).subscribe((response) => {
-      this.openSnackBar(EMensagem.CADASTRO_SUCESSO, EMensagem.FECHAR);
+      this.openSnackBar({
+        message: response.message,
+        buttonText: EMensagem.FECHAR,
+        type: ESnackbarType.success,
+      });
+      
       const id: number = response.data.id;
 
       if (addNew) {
@@ -138,13 +163,12 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
     return ref.afterClosed();
   }
 
-  protected openSnackBar(message: string, buttonText: string) {
-    this._snackBar.openFromComponent(SnackbarComponent, {
+  protected openSnackBar(data: ISnackBarData) {
+    this._snackBar.openFromComponent<SnackbarComponent, ISnackBarData>(SnackbarComponent, {
       duration: 5 * 1000,
-      data: {
-        message,
-        buttonText,
-      },
+      data,
+      panelClass: data.type,
+      horizontalPosition: 'end',
     });
   }
 }

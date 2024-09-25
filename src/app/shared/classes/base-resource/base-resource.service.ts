@@ -20,6 +20,8 @@ export abstract class BaseResourceService<TData> {
   ) {
     this._http = this._injector.get(HttpClient);
     this.url = `http://localhost:${port}/api/v1/${path}`;
+    // TODO: Change the url to use the environment variable
+    // this.url = `${environment.baseUrl}/${path}`;
   }
 
   findAll(

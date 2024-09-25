@@ -7,11 +7,7 @@ import {
   MatSnackBarLabel,
   MatSnackBarRef,
 } from '@angular/material/snack-bar';
-
-export interface ISnackBarData {
-  message: string;
-  buttonText: string;
-}
+import { ISnackBarData } from '../../interfaces/snackbar-data.interface';
 
 @Component({
   selector: 'cl-snackbar',
@@ -35,5 +31,9 @@ export class SnackbarComponent {
   ) {
     this.message = data.message;
     this.buttonText = data.buttonText;
+  }
+
+  close() {
+    this.snackBarRef.dismissWithAction();
   }
 }

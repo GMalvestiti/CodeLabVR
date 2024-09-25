@@ -16,6 +16,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { EFieldType } from '../../enums/field-type.enum';
 import { controlErrorMessages } from '../../helpers/form-error.helper';
 import { IFormField } from '../../interfaces/form-field.interface';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const form = [ReactiveFormsModule, FormsModule];
 const components = [
@@ -25,6 +26,7 @@ const components = [
   MatIconModule,
   MatCheckboxModule,
   MatFormFieldModule,
+  MatSlideToggleModule
 ];
 
 @Component({
@@ -42,6 +44,7 @@ export class FormFieldComponent {
   readonly typeSelect = EFieldType.SELECT;
   readonly typeCheckbox = EFieldType.CHECKBOX;
   readonly typeDatepicker = EFieldType.DATEPICKER;
+  readonly typeSlide = EFieldType.SLIDE;
 
   get label(): string {
     const isRequired = !!this.control?.hasValidator(Validators.required);
