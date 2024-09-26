@@ -6,14 +6,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SnackbarComponent } from '../../components/snackbar/snackbar.component';
 import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import { EMensagem } from '../../enums/mensagem.enum';
+import { ESnackbarType } from '../../enums/snackbar-type.enum';
 import {
   CanComponentDeactivate,
   TCanDeactivate,
 } from '../../guards/pending-changes.guard';
 import { IFormField } from '../../interfaces/form-field.interface';
-import { BaseResourceService } from '../base-resource/base-resource.service';
-import { ESnackbarType } from '../../enums/snackbar-type.enum';
 import { ISnackBarData } from '../../interfaces/snackbar-data.interface';
+import { BaseResourceService } from '../base-resource/base-resource.service';
 
 @Component({ template: '' })
 export abstract class BaseCadastroComponent<TData extends { id: number }>
@@ -134,7 +134,7 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
         buttonText: EMensagem.FECHAR,
         type: ESnackbarType.success,
       });
-      
+
       const id: number = response.data.id;
 
       if (addNew) {
@@ -164,11 +164,14 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
   }
 
   protected openSnackBar(data: ISnackBarData) {
-    this._snackBar.openFromComponent<SnackbarComponent, ISnackBarData>(SnackbarComponent, {
-      duration: 5 * 1000,
-      data,
-      panelClass: data.type,
-      horizontalPosition: 'end',
-    });
+    this._snackBar.openFromComponent<SnackbarComponent, ISnackBarData>(
+      SnackbarComponent,
+      {
+        duration: 5 * 1000,
+        data,
+        panelClass: data.type,
+        horizontalPosition: 'end',
+      },
+    );
   }
 }

@@ -13,5 +13,15 @@
       [form]="cadastroFormGroup"
       [fields]="cadastroFields"
     ></cl-form-fields-list>
+
+    <div class="permissoes-container">
+      <h2 class="permissoes-container__title">Permissões</h2>
+
+      <ng-container *ngFor="let permissao of permissoes">
+        <mat-checkbox [value]="permissao.checked">
+          <span class="field-label">{{ permissao.label }}</span>
+        </mat-checkbox>
+      </ng-container>
+    </div>
   </ng-container>
 </cl-page-layout>

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { ILogin } from './login.interface';
+import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject } from 'rxjs';
 import { IUsuario } from '../pages/usuario/usuario.interface';
-import { Router } from '@angular/router';
+import { ILogin } from './login.interface';
 
 const JWT_KEY = 'jwt-key';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoginService {
   // private url = `http://localhost:${EAPIPort.USUARIO}/api/v1/${EAPIPath.USUARIO}/auth`;
@@ -16,7 +16,9 @@ export class LoginService {
   // private url = `${enviroment.baseUrl}/${EAPIPath.USUARIO}/auth`;
 
   // constructor(private readonly _http: HttpClient) {}
-  constructor(private readonly _router: Router) {}
+  constructor(private readonly _router: Router) {
+    this.handleCurrentSession();
+  }
 
   JWTHelper = new JwtHelperService();
   currentUser = new BehaviorSubject<IUsuario | null>(null);
@@ -25,10 +27,23 @@ export class LoginService {
     return !!this.currentUser.getValue();
   }
 
-  login(payload: ILogin) {
-    console.log(payload);
+  private handleCurrentSession(): void {
+    const jwt: string | null = this.getLocalStorage(JWT_KEY);
 
-    const jwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21lIjoiR3VzdGF2byBNYWx2ZXN0aXRpIiwiZW1haWwiOiJndXN0YXZvLnNtYWx2ZXN0aXRpQGdtYWlsLmNvbSIsInNlbmhhIjoiMTIzNDU2IiwiYXRpdm8iOnRydWUsImFkbWluIjp0cnVlLCJwZXJtaXNzYW8iOlt7Im1vZHVsbyI6MX0seyJtb2R1bG8iOjJ9XX0.d0IVH6BWm0NuNMLLh4zloojK3WDrLwgiWLknj8gMqzg';
+    if (!jwt) return;
+
+    try {
+      const user: IUsuario | null = this.JWTHelper.decodeToken(jwt);
+      console.log(user);
+      this.currentUser.next(user);
+    } catch (error) {
+      this.logout();
+    }
+  }
+
+  login(payload: ILogin) {
+    const jwt =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjQsImVtYWlsIjoiZ3VzdGF2by5zbWFsdmVzdGl0aUBnbWFpbC5jb20iLCJub21lIjoiR3VzdGF2byBNYWx2ZXN0aXRpIiwiYWRtaW4iOnRydWUsIm1vZHVsb3MiOlsxLDJdLCJpYXQiOjE3MjczMDc3NzAsImV4cCI6MTcyNzM1MDk3MCwiaXNzIjoiSk1EQWp4UktldDI4eEhONWhDTDJXanl2RHFYWVFUckUifQ.CvakmZrtkoNjHUNPxbxvCBJmDPnTzU0mZHHZvObMDSg';
 
     this.handleLogin(jwt);
     // return this._http
@@ -41,20 +56,26 @@ export class LoginService {
 
   logout() {
     this.currentUser.next(null);
+    this.removeLocalStorage(JWT_KEY);
     this._router.navigate(['/login']);
   }
 
-  setLocalStorage(key: string, value: string): void {
+  private removeLocalStorage(key: string): void {
+    localStorage.removeItem(key);
+  }
+
+  private setLocalStorage(key: string, value: string): void {
     localStorage.setItem(key, value);
   }
 
-  getLocalStorage(key: string): string | null {
+  private getLocalStorage(key: string): string | null {
     return localStorage.getItem(key);
   }
 
-  private handleLogin(payload: any) {
-    const user: IUsuario | null = this.JWTHelper.decodeToken(payload);
+  private handleLogin(jwt: any) {
+    const user: IUsuario | null = this.JWTHelper.decodeToken(jwt);
     this.currentUser.next(user);
+    this.setLocalStorage(JWT_KEY, jwt);
     this._router.navigate(['/']);
   }
 }
