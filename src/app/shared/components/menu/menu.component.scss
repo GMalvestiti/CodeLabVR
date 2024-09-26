@@ -2,32 +2,32 @@ aside {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem 0;
-  height: 100%;
-  width: 4.5rem;
+  padding: 1.5rem 0;
   background-color: var(--color-gray-50);
-  border-right: 0.1px solid #0000003b;
+  border-right: 0.1px solid rgba(0, 0, 0, 0.3);
+  width: 4.5rem;
+  height: 100%;
 
   .menu-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     cursor: pointer;
-    margin-bottom: 1rem;
     transition: 0.2s all ease;
+    margin-bottom: 1.5rem;
+    color: var(--color-secondary);
 
     &:hover {
       color: var(--color-primary);
     }
 
     &__icon {
-      transform: scale(1.3);
+      transform: scale(1.2);
     }
 
     &__label {
-      font-size: 0.7rem;
       margin-top: 0.2rem;
+      font-size: 0.65rem;
     }
   }
 }

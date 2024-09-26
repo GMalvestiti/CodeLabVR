@@ -12,16 +12,21 @@
     <cl-form-fields-list
       [form]="cadastroFormGroup"
       [fields]="cadastroFields"
+      [disableWatch]="true"
     ></cl-form-fields-list>
 
     <div class="permissoes-container">
       <h2 class="permissoes-container__title">Permissões</h2>
 
-      <ng-container *ngFor="let permissao of permissoes">
-        <mat-checkbox [value]="permissao.checked">
-          <span class="field-label">{{ permissao.label }}</span>
-        </mat-checkbox>
-      </ng-container>
+      <form [formGroup]="cadastroFormGroup">
+        <ng-container *ngFor="let permissaoForm of permissaoFormArrayControls" formArrayName="permissao">
+          <form [formGroup]="permissaoForm">
+            <mat-checkbox formControlName="checked">
+              <span class="field-label">{{ permissaoForm.value.label }}</span>
+            </mat-checkbox>
+          </form>
+        </ng-container>
+      </form>
     </div>
   </ng-container>
 </cl-page-layout>

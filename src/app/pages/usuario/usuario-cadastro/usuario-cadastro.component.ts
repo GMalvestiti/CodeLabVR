@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { BaseCadastroComponent } from '../../../shared/classes/base-cadastro/base-cadastro.component';
 import { BackActionComponent } from '../../../shared/components/action-bar/back-action/back-action.component';
@@ -10,8 +10,9 @@ import { FormFieldsListComponent } from '../../../shared/components/form-fields-
 import { PageLayoutComponent } from '../../../shared/components/page-layout/page-layout.component';
 import { EFieldType } from '../../../shared/enums/field-type.enum';
 import { IFormField } from '../../../shared/interfaces/form-field.interface';
-import { IUsuario } from '../usuario.interface';
+import { IPermissao, IUsuario } from '../usuario.interface';
 import { UsuarioService } from '../usuario.service';
+import { menuPermissao } from '../../../shared/constants/menu-permissao';
 
 const actions = [
   BackActionComponent,
@@ -26,7 +27,9 @@ const actions = [
     ...actions,
     CommonModule,
     PageLayoutComponent,
+    FormsModule,
     FormFieldsListComponent,
+    ReactiveFormsModule,
     MatCheckboxModule,
   ],
   templateUrl: './usuario-cadastro.component.html',
@@ -38,12 +41,10 @@ export class UsuarioCadastroComponent
 {
   constructor(
     private readonly _usuarioService: UsuarioService,
-    protected readonly _injectorLocal: Injector,
+    protected override readonly _injector: Injector,
   ) {
-    super(_usuarioService, _injectorLocal);
+    super(_usuarioService, _injector);
   }
-
-  permissoes: [] = [];
 
   cadastroFormGroup = new FormGroup({
     id: new FormControl({ value: null, disabled: true }),
@@ -52,12 +53,8 @@ export class UsuarioCadastroComponent
     admin: new FormControl(false),
     senha: new FormControl('temporario'),
     ativo: new FormControl(true),
-    permissao: new FormArray([]),
+    permissao: new FormArray(this.buildPermissoesFormArray()),
   });
-
-  get permissaoFormArray(): FormArray {
-    return this.cadastroFormGroup.get('permissao') as FormArray;
-  }
 
   cadastroFields: IFormField[] = [
     {
@@ -89,4 +86,56 @@ export class UsuarioCadastroComponent
       class: 'grid-1',
     },
   ];
+
+  get permissaoFormArray(): FormArray {
+    return this.cadastroFormGroup.get('permissao') as FormArray;
+  }
+
+  get permissaoFormArrayControls(): FormGroup[] {
+    return this.permissaoFormArray.controls as FormGroup[];
+  }
+
+  get permissaoFormArrayValue(): IPermissao[] {
+    return this.permissaoFormArray.getRawValue() as IPermissao[];
+  }
+
+  override get cadastroFormValues(): IUsuario {
+    const formValues = super.cadastroFormValues;
+    const permissao = this.buildPermissaoForSave();
+
+    return { ...formValues, permissao };
+  }
+
+  private buildPermissoesFormArray(): FormGroup[] {
+    const permissoes = [];
+
+    for (const menuPermissaoItem of menuPermissao) {
+      const form = new FormGroup({
+        id: new FormControl<number | null>(null),
+        idUsuario: new FormControl<number | null>(null),
+        modulo: new FormControl<number>(menuPermissaoItem.modulo),
+        label: new FormControl<string>(menuPermissaoItem.label),
+        checked: new FormControl<boolean>(false),
+      });
+
+      permissoes.push(form);
+    }
+
+    return permissoes;
+  }
+
+  private buildPermissaoForSave() {
+    return this.permissaoFormArrayValue.filter((item) => item.checked).map((item) => ({
+      id: item.id,
+      idUsuario: item.idUsuario,
+      modulo: item.modulo,
+    }));
+  }
+
+  protected override buildPatchValuesFormEdit(payload: IUsuario): IUsuario {
+    return {
+      ...payload,
+      permissao: payload.permissao.map((item) => ({ ...item, checked: true })),
+    };
+  }
 }

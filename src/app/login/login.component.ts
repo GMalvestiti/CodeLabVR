@@ -85,7 +85,7 @@ export class LoginComponent {
       senha: this.loginForm.value.senha as string,
     }
 
-    this._loginService.login(payload);
+    this._loginService.login(payload).subscribe();
   }
 
   protected openSnackBar(data: ISnackBarData) {

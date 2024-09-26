@@ -22,7 +22,7 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
   abstract cadastroFormGroup: FormGroup;
   abstract cadastroFields: IFormField[];
 
-  get formValues() {
+  get cadastroFormValues() {
     return this.cadastroFormGroup.getRawValue() as unknown as TData;
   }
 
@@ -106,7 +106,7 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
 
   protected saveEditar(addNew: boolean): void {
     this._service
-      .updateById(this.idEdit, this.formValues)
+      .updateById(this.idEdit, this.cadastroFormValues)
       .subscribe((response) => {
         this.openSnackBar({
           message: response.message,
@@ -128,7 +128,7 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
   }
 
   protected saveCadastro(addNew: boolean): void {
-    this._service.create(this.formValues).subscribe((response) => {
+    this._service.create(this.cadastroFormValues).subscribe((response) => {
       this.openSnackBar({
         message: response.message,
         buttonText: EMensagem.FECHAR,
