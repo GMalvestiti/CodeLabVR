@@ -9,7 +9,6 @@ import { SaveAddActionComponent } from '../../../shared/components/action-bar/sa
 import { FormFieldsListComponent } from '../../../shared/components/form-fields-list/form-fields-list.component';
 import { PageLayoutComponent } from '../../../shared/components/page-layout/page-layout.component';
 import { EFieldType } from '../../../shared/enums/field-type.enum';
-import { EPermissoes } from '../../../shared/enums/permissoes.enum';
 import { IFormField } from '../../../shared/interfaces/form-field.interface';
 import { IUsuario } from '../usuario.interface';
 import { UsuarioService } from '../usuario.service';
@@ -44,7 +43,7 @@ export class UsuarioCadastroComponent
     super(_usuarioService, _injectorLocal);
   }
 
-  permissoesEnum = EPermissoes;
+  permissoes: [] = [];
 
   cadastroFormGroup = new FormGroup({
     id: new FormControl({ value: null, disabled: true }),
@@ -90,34 +89,4 @@ export class UsuarioCadastroComponent
       class: 'grid-1',
     },
   ];
-
-  permissoes: {
-    label: string;
-    value: string | EPermissoes;
-    checked: string;
-  }[] = [];
-
-  override ngOnInit(): void {
-    super.ngOnInit();
-    const enumArray = Object.values(this.permissoesEnum);
-    const valuesArray = enumArray.splice(enumArray.length / 2);
-    const keysArray = enumArray.splice(0, enumArray.length);
-
-    valuesArray.forEach((value, index) => {
-      const enumLabel: string = keysArray[index] as string;
-
-      const label =
-        enumLabel.charAt(0).toUpperCase() + enumLabel.slice(1).toLowerCase();
-
-      const obj = {
-        label,
-        value: value,
-        checked: 'false',
-      };
-
-      this.permissoes.push(obj);
-    });
-
-    console.log(this.permissoes);
-  }
 }
