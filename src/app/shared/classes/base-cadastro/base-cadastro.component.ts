@@ -23,7 +23,7 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
   abstract cadastroFields: IFormField[];
 
   get cadastroFormValues() {
-    return this.cadastroFormGroup.getRawValue() as unknown as TData;
+    return this.cadastroFormGroup.getRawValue() as TData;
   }
 
   private readonly _router!: Router;
@@ -80,7 +80,7 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
 
   protected patchFormForEdit(payload: TData): void {
     const values = this.buildPatchValuesFormEdit(payload);
-    this.cadastroFormGroup.patchValue(values);
+    this.cadastroFormGroup.patchValue({ ...values });
   }
 
   private navigateToCadastro(): void {
@@ -154,20 +154,19 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
     const ref = this._dialog.open(ConfirmDialogComponent, {
       disableClose: true,
       data: {
-        titleText: 'Ações Pendentes',
-        contentText:
-          'Você possui alterações que não foram salvas, deseja mesmo sair da página?',
+        titleText: EMensagem.ALTERACOES_PENDENTES_TITULO,
+        contentText: EMensagem.ALTERACOES_PENDENTES_TEXTO,
       },
     });
 
     return ref.afterClosed();
   }
 
-  protected openSnackBar(data: ISnackBarData) {
+  protected openSnackBar(data: ISnackBarData, duration: number = 5000): void {
     this._snackBar.openFromComponent<SnackbarComponent, ISnackBarData>(
       SnackbarComponent,
       {
-        duration: 5 * 1000,
+        duration,
         data,
         panelClass: data.type,
         horizontalPosition: 'end',

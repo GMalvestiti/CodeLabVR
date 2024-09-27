@@ -3,5 +3,5 @@ export enum EFieldType {
   SELECT,
   CHECKBOX,
   DATEPICKER,
-  SLIDE
+  SLIDE,
 }

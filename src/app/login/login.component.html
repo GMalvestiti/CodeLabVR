@@ -4,18 +4,18 @@
       <h1>Tecnologia para o seu supermercado ter mais resultados!</h1>
       <div class="left-container-content">
         <ul>
-          <li>Aumento de Produtividade</li>
+          <li>Aumento da Produtividade</li>
           <li>Segurança de Dados</li>
           <li>Organização</li>
           <li>Controle de Estoque</li>
           <li>Controle Financeiro e Fiscal</li>
           <li>Auxílio para Tomadas de Decisões</li>
         </ul>
-        <img src="assets/images/login_carrinho.png">
+        <img src="assets/images/login_carrinho.png" alt="" />
       </div>
     </div>
     <div class="right-container">
-      <img src="assets/images/logo_vr.svg">
+      <img src="assets/images/logo_vr.svg" alt="" />
 
       <form class="login-form">
         <cl-form-field
@@ -36,12 +36,21 @@
           class="form-field"
         ></cl-form-field>
 
-        <button (click)="login($event)" mat-flat-button color="primary">
+        <button
+          (click)="login($event)"
+          mat-flat-button
+          color="primary"
+          class="submit-btn"
+        >
           Entrar
         </button>
       </form>
     </div>
   </div>
 
-  <img class="logo-assinatura" src="assets/images/logo_vr_com_assinatura.svg" alt="Logo"/>
+  <img
+    class="logo-assinatura"
+    src="assets/images/logo_vr_com_assinatura.svg"
+    alt="Logo"
+  />
 </div>

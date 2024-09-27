@@ -18,7 +18,7 @@ export function removeFilterEmptyValues(
   Object.keys(filter).forEach((key) => {
     const value = filter[key];
 
-    if (value === undefined || value === null) {
+    if (value === undefined || value === null || value == 0) {
       delete filter[key];
     }
   });

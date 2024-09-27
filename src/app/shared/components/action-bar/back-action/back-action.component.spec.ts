@@ -8,10 +8,9 @@ describe('BackActionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BackActionComponent]
-    })
-    .compileComponents();
-    
+      imports: [BackActionComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(BackActionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

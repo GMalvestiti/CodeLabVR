@@ -6,7 +6,6 @@ import { MatButtonModule } from '@angular/material/button';
   standalone: true,
   imports: [MatButtonModule],
   templateUrl: './save-action.component.html',
-  styleUrl: './save-action.component.scss',
 })
 export class SaveActionComponent {
   @Output() saveEmitter: EventEmitter<void> = new EventEmitter<void>();

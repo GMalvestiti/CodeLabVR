@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
-import { IMenuPermissao } from '../../interfaces/menu-permissao.interface';
-import { menuPermissao } from '../../constants/menu-permissao';
 import { LoginService } from '../../../login/login.service';
+import { menuPermissao } from '../../constants/menu-permissao';
+import { IMenuPermissao } from '../../interfaces/menu-permissao.interface';
 
 @Component({
   selector: 'cl-menu',
@@ -22,18 +22,22 @@ export class MenuComponent implements OnInit {
   menuItems: IMenuPermissao[] = [];
 
   ngOnInit(): void {
-    this.handleMenuItems();
+    this.handleMenuPermissao();
+  }
+
+  private handleMenuPermissao() {
+    const user = this._loginService.currentUser;
+
+    if (!user) {
+      return this._loginService.logout();
+    }
+
+    this.menuItems = menuPermissao.filter((menuItem) => {
+      return user?.admin || user?.modulos.includes(menuItem.modulo);
+    });
   }
 
   handleNavigation(path: string): void {
     this._router.navigateByUrl(path);
-  }
-
-  private handleMenuItems() {
-    const user = this._loginService.currentUser;
-    
-    this.menuItems = menuPermissao.filter((item) => {
-      return user?.admin || user?.modulos.includes(item.modulo);
-    });
   }
 }

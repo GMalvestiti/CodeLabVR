@@ -19,7 +19,10 @@
       <h2 class="permissoes-container__title">Permissões</h2>
 
       <form [formGroup]="cadastroFormGroup">
-        <ng-container *ngFor="let permissaoForm of permissaoFormArrayControls" formArrayName="permissao">
+        <ng-container
+          *ngFor="let permissaoForm of permissaoFormArrayControls"
+          formArrayName="permissao"
+        >
           <form [formGroup]="permissaoForm">
             <mat-checkbox formControlName="checked">
               <span class="field-label">{{ permissaoForm.value.label }}</span>

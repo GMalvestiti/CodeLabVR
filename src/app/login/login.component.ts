@@ -5,16 +5,16 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { FormFieldComponent } from '../shared/components/form-field/form-field.component';
-import { IFormField } from '../shared/interfaces/form-field.interface';
-import { EFieldType } from '../shared/enums/field-type.enum';
-import { ESnackbarType } from '../shared/enums/snackbar-type.enum';
-import { EMensagem } from '../shared/enums/mensagem.enum';
-import { ISnackBarData } from '../shared/interfaces/snackbar-data.interface';
-import { SnackbarComponent } from '../shared/components/snackbar/snackbar.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { LoginService } from './login.service';
+import { FormFieldComponent } from '../shared/components/form-field/form-field.component';
+import { SnackbarComponent } from '../shared/components/snackbar/snackbar.component';
+import { EFieldType } from '../shared/enums/field-type.enum';
+import { EMensagem } from '../shared/enums/mensagem.enum';
+import { ESnackbarType } from '../shared/enums/snackbar-type.enum';
+import { IFormField } from '../shared/interfaces/form-field.interface';
+import { ISnackBarData } from '../shared/interfaces/snackbar-data.interface';
 import { ILogin } from './login.interface';
+import { LoginService } from './login.service';
 
 const components = [
   MatCardModule,
@@ -22,7 +22,7 @@ const components = [
   MatInputModule,
   MatFormFieldModule,
   MatSlideToggleModule,
-  FormFieldComponent
+  FormFieldComponent,
 ];
 
 @Component({
@@ -34,7 +34,10 @@ const components = [
 })
 export class LoginComponent {
   loginForm = new FormGroup({
-    email: new FormControl<string | null>(null, [Validators.required, Validators.email]),
+    email: new FormControl<string | null>(null, [
+      Validators.required,
+      Validators.email,
+    ]),
     senha: new FormControl<string | null>(null, [Validators.required]),
     lembrar: new FormControl<boolean>(false),
   });
@@ -44,8 +47,8 @@ export class LoginComponent {
     label: 'Email',
     formControlName: 'email',
     placeholder: 'Ex.: jose@gmail.com',
-    class: ''
-  }
+    class: '',
+  };
 
   senhaInput: IFormField = {
     type: EFieldType.INPUT,
@@ -64,7 +67,10 @@ export class LoginComponent {
     class: '',
   };
 
-  constructor(private readonly _snackBar: MatSnackBar, private readonly _loginService: LoginService) {}
+  constructor(
+    private readonly _snackBar: MatSnackBar,
+    private readonly _loginService: LoginService,
+  ) {}
 
   login($event: Event): void {
     $event.preventDefault();
@@ -83,17 +89,20 @@ export class LoginComponent {
     const payload: ILogin = {
       email: this.loginForm.value.email as string,
       senha: this.loginForm.value.senha as string,
-    }
+    };
 
     this._loginService.login(payload).subscribe();
   }
 
-  protected openSnackBar(data: ISnackBarData) {
-    this._snackBar.openFromComponent<SnackbarComponent, ISnackBarData>(SnackbarComponent, {
-      duration: 5 * 1000,
-      data,
-      panelClass: data.type,
-      horizontalPosition: 'end',
-    });
+  protected openSnackBar(data: ISnackBarData, duration = 5000): void {
+    this._snackBar.openFromComponent<SnackbarComponent, ISnackBarData>(
+      SnackbarComponent,
+      {
+        duration,
+        data,
+        panelClass: data.type,
+        horizontalPosition: 'end',
+      },
+    );
   }
 }

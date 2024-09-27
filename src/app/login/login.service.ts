@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject, take, tap } from 'rxjs';
-import { enviroment } from '../../enviroments/enviroment';
+import { environment } from '../../enviroments/enviroment';
 import { EAPIPath } from '../shared/enums/api-info.enum';
 import { IResponse } from '../shared/interfaces/response.interface';
 import { ILogin, IUsuarioJWT } from './login.interface';
@@ -14,7 +14,7 @@ const JWT_KEY = 'jwt-key';
   providedIn: 'root',
 })
 export class LoginService {
-  private url = `${enviroment.baseUrl}/${EAPIPath.USUARIO}/auth`;
+  private url = `${environment.baseUrl}/${EAPIPath.USUARIO}/auth`;
 
   constructor(
     private readonly _router: Router,
@@ -31,7 +31,7 @@ export class LoginService {
   }
 
   private handleCurrentSession(): void {
-    const jwt: string | null = this.getLocalStorage(JWT_KEY);
+    const jwt: string | null = this.getJWT();
 
     if (!jwt) return;
 
@@ -74,7 +74,7 @@ export class LoginService {
     return localStorage.getItem(key);
   }
 
-  private handleLogin(jwt: any) {
+  private handleLogin(jwt: string) {
     const user: IUsuarioJWT | null = this.JWTHelper.decodeToken(jwt);
     this.currentUserSubject.next(user);
     this.setLocalStorage(JWT_KEY, jwt);

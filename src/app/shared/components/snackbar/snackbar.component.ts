@@ -27,7 +27,7 @@ export class SnackbarComponent {
 
   constructor(
     protected readonly snackBarRef: MatSnackBarRef<SnackbarComponent>,
-    @Inject(MAT_SNACK_BAR_DATA) data: ISnackBarData,
+    @Inject(MAT_SNACK_BAR_DATA) public data: ISnackBarData,
   ) {
     this.message = data.message;
     this.buttonText = data.buttonText;

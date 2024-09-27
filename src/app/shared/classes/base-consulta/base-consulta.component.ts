@@ -39,7 +39,7 @@ export abstract class BaseConsultaComponent<TData>
 
   constructor(
     private readonly _service: BaseResourceService<TData>,
-    protected readonly _injector: Injector,
+    private readonly _injector: Injector,
   ) {
     this._router = this._injector.get(Router);
     this._route = this._injector.get(ActivatedRoute);
@@ -57,7 +57,7 @@ export abstract class BaseConsultaComponent<TData>
     this.loading = true;
 
     this._service
-      .findAll(this.sort, this.page, this.filterValues)
+      .findAll(this.page, this.sort, this.filterValues)
       .subscribe((response) => {
         this.dataSource.data = response.data;
         this.paginatorEl.length = response.count as number;

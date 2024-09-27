@@ -13,10 +13,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { EFieldType } from '../../enums/field-type.enum';
 import { controlErrorMessages } from '../../helpers/form-error.helper';
 import { IFormField } from '../../interfaces/form-field.interface';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const form = [ReactiveFormsModule, FormsModule];
 const components = [
@@ -26,7 +26,7 @@ const components = [
   MatIconModule,
   MatCheckboxModule,
   MatFormFieldModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
 ];
 
 @Component({

@@ -2,7 +2,7 @@ import { EFieldType } from '../enums/field-type.enum';
 
 export interface ILabelValue {
   label: string;
-  value: number | boolean | string;
+  value: number | boolean | string | unknown;
 }
 
 export interface IFormField {
@@ -11,6 +11,6 @@ export interface IFormField {
   formControlName: string;
   placeholder: string;
   class: string;
-  options?: ILabelValue[];
+  options?: Promise<ILabelValue[]>;
   password?: boolean;
 }

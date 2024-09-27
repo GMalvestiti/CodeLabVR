@@ -7,7 +7,6 @@ import { ActivatedRoute, Router } from '@angular/router';
   standalone: true,
   imports: [MatIconModule],
   templateUrl: './add-action.component.html',
-  styleUrl: './add-action.component.scss',
 })
 export class AddActionComponent {
   constructor(
@@ -15,7 +14,7 @@ export class AddActionComponent {
     private readonly _route: ActivatedRoute,
   ) {}
 
-  goToCadastro(): void {
+  add(): void {
     this._router.navigate(['../cadastro'], { relativeTo: this._route });
   }
 }

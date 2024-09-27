@@ -1,11 +1,21 @@
-<div class="not-found-page">
-  <div class="container">
-    <img src="assets/images/page-not-found.png" alt="404" />
+<div class="not-found">
+  <div class="content">
+    <img
+      src="../../assets/images/page-not-found.png"
+      class="image page-not-found"
+      alt="Página não encontrada"
+    />
 
-    <div class="content">
-      <h1>OOPS!<br>PÁGINA NÃO ENCONTRADA</h1>
-      <h3>Desculpe, não conseguimos encontrar o que você procurou.</h3>
-      <button mat-flat-button color="primary" (click)="handleNavigation()">
+    <div class="texts">
+      <h1 class="title">Oops!</h1>
+
+      <h1 class="title">Página não encontrada!</h1>
+
+      <h2 class="subtitle">
+        Desculpe, não conseguimos encontrar o que você procurou.
+      </h2>
+
+      <button class="btn" mat-flat-button routerLink="/home" color="primary">
         Ir para página inicial
       </button>
     </div>

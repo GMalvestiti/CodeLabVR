@@ -7,8 +7,5 @@ import { LayoutComponent } from '../shared/components/layout/layout.component';
   standalone: true,
   imports: [LayoutComponent, RouterOutlet],
   templateUrl: './pages.component.html',
-  styleUrl: './pages.component.scss',
 })
-export class PagesComponent {
-  titulo = 'Code Lab';
-}
+export class PagesComponent {}

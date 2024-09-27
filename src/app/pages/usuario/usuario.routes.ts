@@ -26,7 +26,7 @@ export const usuarioRoutes: Routes = [
         canDeactivate: [pendingChangesGuard],
       },
       {
-        path: '',
+        path: '**',
         redirectTo: 'consulta',
         pathMatch: 'full',
       },

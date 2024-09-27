@@ -1,7 +1,7 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { catchError, throwError } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { LoginService } from '../../login/login.service';
 import { SnackbarComponent } from '../components/snackbar/snackbar.component';
 import { EMensagem } from '../enums/mensagem.enum';
@@ -16,47 +16,61 @@ const KONG_MESSAGES = [
 ];
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const loginService = inject(LoginService);
   const snackBar = inject(MatSnackBar);
+  const loginService = inject(LoginService);
   const jwt = loginService.getJWT();
 
   const authReq = req.clone({
     setHeaders: {
       Authorization: `Bearer ${jwt}`,
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
     },
   });
 
   return next(authReq).pipe(
-    catchError((error) => {
-      const errorObject = error.error;
-
-      console.log('errorObject', errorObject);
-
-      if (KONG_MESSAGES.includes(errorObject.message || errorObject.exp)) {
-        openSnackBar(snackBar, {
-          message: EMensagem.SESSAO_EXPIRADA,
-          buttonText: EMensagem.FECHAR,
-          type: ESnackbarType.warning,
-        });
-        loginService.logout();
-      } else {
-        openSnackBar(snackBar, {
-          message: errorObject.message || EMensagem.ALGO_DEU_ERRADO,
-          buttonText: EMensagem.FECHAR,
-          type: ESnackbarType.error,
-        });
-      }
-
-      return throwError(() => error);
+    catchError((error: HttpErrorResponse) => {
+      return checkError(loginService, snackBar, error);
     }),
   );
 };
 
-function openSnackBar(snackBar: MatSnackBar, data: ISnackBarData) {
+function checkError(
+  loginService: LoginService,
+  snackBar: MatSnackBar,
+  error: HttpErrorResponse,
+): Observable<never> {
+  const errorObject = error.error;
+
+  if (KONG_MESSAGES.includes(errorObject.message || errorObject.exp)) {
+    const data: ISnackBarData = {
+      message: EMensagem.SESSAO_EXPIRADA,
+      buttonText: EMensagem.FECHAR,
+      type: ESnackbarType.warning,
+    };
+    openSnackBar(snackBar, data);
+    loginService.logout();
+  } else {
+    const data: ISnackBarData = {
+      message: errorObject.message || error.message,
+      buttonText: EMensagem.FECHAR,
+      type: ESnackbarType.error,
+    };
+    openSnackBar(snackBar, data);
+  }
+
+  return throwError(() => error);
+}
+
+function openSnackBar(
+  snackBar: MatSnackBar,
+  data: ISnackBarData,
+  duration = 5000,
+) {
   snackBar.openFromComponent<SnackbarComponent, ISnackBarData>(
     SnackbarComponent,
     {
-      duration: 5 * 1000,
+      duration,
       data,
       panelClass: data.type,
       horizontalPosition: 'end',

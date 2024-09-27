@@ -15,6 +15,7 @@ import { MatTableModule } from '@angular/material/table';
 import { BaseConsultaComponent } from '../../../shared/classes/base-consulta/base-consulta.component';
 import { AddActionComponent } from '../../../shared/components/action-bar/add-action/add-action.component';
 import { BackActionComponent } from '../../../shared/components/action-bar/back-action/back-action.component';
+import { EmptyRowComponent } from '../../../shared/components/empty-row/empty-row.component';
 import { FormFieldsListComponent } from '../../../shared/components/form-fields-list/form-fields-list.component';
 import { PageLayoutComponent } from '../../../shared/components/page-layout/page-layout.component';
 import { ProgressLoadingComponent } from '../../../shared/components/progress-loading/progress-loading/progress-loading.component';
@@ -29,7 +30,12 @@ import { IUsuario } from '../usuario.interface';
 import { UsuarioService } from '../usuario.service';
 
 const actions = [BackActionComponent, AddActionComponent];
-const table = [MatTableModule, MatSortModule, MatPaginatorModule];
+const table = [
+  MatTableModule,
+  MatSortModule,
+  MatPaginatorModule,
+  EmptyRowComponent,
+];
 const pipes = [BoolToTextPipe, FormatIdPipe];
 const form = [
   MatIconModule,
@@ -58,13 +64,6 @@ const imports = [
 })
 export class UsuarioConsultaComponent extends BaseConsultaComponent<IUsuario> {
   displayedColumns: string[] = ['id', 'nome', 'email', 'admin', 'acoes'];
-
-  filterFormGroup = new FormGroup({
-    id: new FormControl(null),
-    nome: new FormControl(null),
-    email: new FormControl(null),
-    admin: new FormControl(0),
-  });
 
   adminOptions: ILabelValue[] = [
     {
@@ -109,12 +108,19 @@ export class UsuarioConsultaComponent extends BaseConsultaComponent<IUsuario> {
       formControlName: 'admin',
       placeholder: '',
       class: 'grid-1',
-      options: this.adminOptions,
+      options: Promise.resolve(this.adminOptions),
     },
   ];
 
+  filterFormGroup = new FormGroup({
+    id: new FormControl(null),
+    nome: new FormControl(null),
+    email: new FormControl(null),
+    admin: new FormControl(0),
+  });
+
   constructor(
-    private _usuarioService: UsuarioService,
+    private readonly _usuarioService: UsuarioService,
     private readonly _injectorLocal: Injector,
   ) {
     super(_usuarioService, _injectorLocal);

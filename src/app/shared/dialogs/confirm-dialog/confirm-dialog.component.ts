@@ -1,13 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-
-export interface IConfirmDialogData {
-  titleText?: string;
-  contentText?: string;
-  confirmText?: string;
-  cancelText?: string;
-}
+import { IConfirmDialogData } from '../../interfaces/confirm-dialog-data.interface';
 
 @Component({
   selector: 'cl-confirm-dialog',
@@ -17,15 +11,15 @@ export interface IConfirmDialogData {
   styleUrl: './confirm-dialog.component.scss',
 })
 export class ConfirmDialogComponent {
-  titleText = 'Confirmar Ação';
-  contentText = 'Você deseja confirmar essa ação?';
+  titleText = 'Confirme sua Ação';
+  contentText = 'Deseja confirmar essa ação?';
   confirmText = 'Confirmar';
   cancelText = 'Cancelar';
 
-  constructor(@Inject(MAT_DIALOG_DATA) data: IConfirmDialogData) {
-    this.titleText = data.titleText ?? this.titleText;
-    this.contentText = data.contentText ?? this.contentText;
-    this.confirmText = data.confirmText ?? this.confirmText;
-    this.cancelText = data.cancelText ?? this.cancelText;
+  constructor(@Inject(MAT_DIALOG_DATA) public data: IConfirmDialogData) {
+    this.titleText = this.data.titleText ?? this.titleText;
+    this.contentText = this.data.contentText ?? this.contentText;
+    this.confirmText = this.data.confirmText ?? this.confirmText;
+    this.cancelText = this.data.cancelText ?? this.cancelText;
   }
 }

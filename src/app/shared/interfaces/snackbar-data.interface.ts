@@ -1,7 +1,7 @@
-import { ESnackbarType } from "../enums/snackbar-type.enum";
+import { ESnackbarType } from '../enums/snackbar-type.enum';
 
 export interface ISnackBarData {
-    message: string;
-    buttonText: string;
-    type: ESnackbarType;
+  message: string;
+  buttonText: string;
+  type: ESnackbarType;
 }

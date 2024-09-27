@@ -3,6 +3,7 @@ import { Injectable, Injector } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { Observable, take } from 'rxjs';
+import { environment } from '../../../../enviroments/enviroment';
 import { handleFindAllFilter } from '../../helpers/filter.helper';
 import { IResponse } from '../../interfaces/response.interface';
 
@@ -15,18 +16,15 @@ export abstract class BaseResourceService<TData> {
 
   constructor(
     protected readonly _injector: Injector,
-    port: number,
     path: string,
   ) {
     this._http = this._injector.get(HttpClient);
-    this.url = `http://localhost:${port}/api/v1/${path}`;
-    // TODO: Change the url to use the environment variable
-    // this.url = `${environment.baseUrl}/${path}`;
+    this.url = `${environment.baseUrl}/${path}`;
   }
 
   findAll(
-    sort: Sort,
     page: PageEvent,
+    sort: Sort,
     filter: Record<string, unknown>,
   ): Observable<IResponse<TData[]>> {
     const orderParam = JSON.stringify({

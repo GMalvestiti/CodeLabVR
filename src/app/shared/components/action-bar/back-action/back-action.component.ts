@@ -7,7 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
   standalone: true,
   imports: [MatIconModule],
   templateUrl: './back-action.component.html',
-  styleUrl: './back-action.component.scss',
 })
 export class BackActionComponent {
   constructor(private readonly _location: Location) {}
