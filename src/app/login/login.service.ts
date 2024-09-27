@@ -1,12 +1,12 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject, take, tap } from 'rxjs';
-import { ILogin, IUsuarioJWT } from './login.interface';
-import { HttpClient } from '@angular/common/http';
 import { enviroment } from '../../enviroments/enviroment';
 import { EAPIPath } from '../shared/enums/api-info.enum';
 import { IResponse } from '../shared/interfaces/response.interface';
+import { ILogin, IUsuarioJWT } from './login.interface';
 
 const JWT_KEY = 'jwt-key';
 
@@ -37,7 +37,6 @@ export class LoginService {
 
     try {
       const user: IUsuarioJWT | null = this.JWTHelper.decodeToken(jwt);
-      console.log(user);
       this.currentUserSubject.next(user);
     } catch (error) {
       this.logout();
@@ -57,6 +56,10 @@ export class LoginService {
     this.currentUserSubject.next(null);
     this.removeLocalStorage(JWT_KEY);
     this._router.navigate(['/login']);
+  }
+
+  getJWT(): string | null {
+    return this.getLocalStorage(JWT_KEY);
   }
 
   private removeLocalStorage(key: string): void {

@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { EMenuPermissao } from '../shared/enums/menu-permissao.enum';
+import { authGuard } from '../shared/guards/auth.guard';
 import { HomeComponent } from './home/home.component';
 import { PagesComponent } from './pages.component';
 import { usuarioRoutes } from './usuario/usuario.routes';
@@ -10,6 +12,9 @@ export const pagesRoutes: Routes = [
     children: [
       {
         path: 'home',
+        data: {
+          modulo: EMenuPermissao.HOME,
+        },
         component: HomeComponent,
       },
       {
@@ -19,5 +24,6 @@ export const pagesRoutes: Routes = [
       },
       ...usuarioRoutes,
     ],
+    canActivateChild: [authGuard],
   },
 ];
