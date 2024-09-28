@@ -26,6 +26,10 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
     return this.cadastroFormGroup.getRawValue() as TData;
   }
 
+  get cadastroFormValuesForSave() {
+    return this.cadastroFormGroup.getRawValue() as TData;
+  }
+
   private readonly _router!: Router;
   private readonly _route!: ActivatedRoute;
   private readonly _dialog!: MatDialog;
@@ -105,8 +109,12 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
   }
 
   protected saveEditar(addNew: boolean): void {
+    const data = this.cadastroFormValuesForSave;
+
+    console.log(data);
+
     this._service
-      .updateById(this.idEdit, this.cadastroFormValues)
+      .updateById(this.idEdit, data)
       .subscribe((response) => {
         this.openSnackBar({
           message: response.message,
@@ -128,7 +136,9 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
   }
 
   protected saveCadastro(addNew: boolean): void {
-    this._service.create(this.cadastroFormValues).subscribe((response) => {
+    const data = this.cadastroFormValuesForSave;
+
+    this._service.create(data).subscribe((response) => {
       this.openSnackBar({
         message: response.message,
         buttonText: EMensagem.FECHAR,
