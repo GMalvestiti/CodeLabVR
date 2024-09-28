@@ -111,8 +111,6 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
   protected saveEditar(addNew: boolean): void {
     const data = this.cadastroFormValuesForSave;
 
-    console.log(data);
-
     this._service
       .updateById(this.idEdit, data)
       .subscribe((response) => {

@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { usuarioRoutes } from './usuario/usuario.routes';
 import { produtoRoutes } from './produto/produto.routes';
 import { pessoaRoutes } from './pessoa/pessoa.routes';
+import { recebimentoRoutes } from './recebimento/recebimento.routes';
 
 export const pagesRoutes: Routes = [
   {
@@ -21,4 +22,5 @@ export const pagesRoutes: Routes = [
   ...usuarioRoutes,
   ...produtoRoutes,
   ...pessoaRoutes,
+  ...recebimentoRoutes,
 ];

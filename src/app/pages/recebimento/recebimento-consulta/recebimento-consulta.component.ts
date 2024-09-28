@@ -5,7 +5,6 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -21,12 +20,14 @@ import { FormFieldsListComponent } from '../../../shared/components/form-fields-
 import { PageLayoutComponent } from '../../../shared/components/page-layout/page-layout.component';
 import { ProgressLoadingComponent } from '../../../shared/components/progress-loading/progress-loading/progress-loading.component';
 import { EFieldType } from '../../../shared/enums/field-type.enum';
-import { IFormField } from '../../../shared/interfaces/form-field.interface';
+import {
+  IFormField,
+  ILabelValue,
+} from '../../../shared/interfaces/form-field.interface';
 import { BoolToTextPipe } from '../../../shared/pipes/bool-to-text.pipe';
 import { FormatIdPipe } from '../../../shared/pipes/format-id.pipe';
-import { IProduto } from '../produto.interface';
-import { ProdutoService } from '../produto.service';
-import { FormatCodigoBarras } from '../../../shared/pipes/format-codigo-barras.pipe';
+import { IContaReceber } from '../recebimento.interface';
+import { RecebimentoService } from '../recebimento.service';
 import { FormatRealPipe } from '../../../shared/pipes/format-real.pipe';
 
 const actions = [BackActionComponent, AddActionComponent];
@@ -36,7 +37,7 @@ const table = [
   MatPaginatorModule,
   EmptyRowComponent,
 ];
-const pipes = [BoolToTextPipe, FormatIdPipe, FormatCodigoBarras, FormatRealPipe];
+const pipes = [BoolToTextPipe, FormatIdPipe, FormatRealPipe];
 const form = [
   MatIconModule,
   MatInputModule,
@@ -56,20 +57,28 @@ const imports = [
 ];
 
 @Component({
-  selector: 'cl-produto-consulta',
+  selector: 'cl-recebimento-consulta',
   standalone: true,
   imports,
-  templateUrl: './produto-consulta.component.html',
-  styleUrl: './produto-consulta.component.scss',
+  templateUrl: './recebimento-consulta.component.html',
+  styleUrl: './recebimento-consulta.component.scss',
 })
-export class ProdutoConsultaComponent extends BaseConsultaComponent<IProduto> {
-  displayedColumns: string[] = [
-    'id',
-    'descricao',
-    'precoCusto',
-    'precoVenda',
-    'codigoBarras',
-    'acoes',
+export class RecebimentoConsultaComponent extends BaseConsultaComponent<IContaReceber> {
+  displayedColumns: string[] = ['id', 'pessoa', 'valorTotal', 'pago', 'acoes'];
+
+  pagoOptions: ILabelValue[] = [
+    {
+      label: 'Todos',
+      value: 0,
+    },
+    {
+      label: 'Sim',
+      value: true,
+    },
+    {
+      label: 'Não',
+      value: false,
+    },
   ];
 
   filterFields: IFormField[] = [
@@ -82,46 +91,42 @@ export class ProdutoConsultaComponent extends BaseConsultaComponent<IProduto> {
     },
     {
       type: EFieldType.INPUT,
-      label: 'Descrição',
-      formControlName: 'descricao',
-      placeholder: 'Ex.: Arroz',
+      label: 'Pessoa',
+      formControlName: 'pessoa',
+      placeholder: 'Ex.: João',
       class: 'grid-2',
     },
     {
       type: EFieldType.INPUT,
-      label: 'Preço de Custo',
-      formControlName: 'precoCusto',
+      label: 'Valor Total',
+      formControlName: 'valorTotal',
       placeholder: 'Ex.: 10.000',
       class: 'grid-2',
     },
     {
-      type: EFieldType.INPUT,
-      label: 'Preço de Venda',
-      formControlName: 'precoVenda',
-      placeholder: 'Ex.: 10.000',
-      class: 'grid-2',
-    },
-    {
-      type: EFieldType.INPUT,
-      label: 'Código de Barras',
-      formControlName: 'codigoBarras',
-      placeholder: 'Ex.: 1234567890123',
-      class: 'grid-2',
+      type: EFieldType.SELECT,
+      label: 'Pago',
+      formControlName: 'pago',
+      placeholder: '',
+      class: 'grid-1',
+      options: Promise.resolve(this.pagoOptions),
     },
   ];
 
   filterFormGroup = new FormGroup({
     id: new FormControl(null),
-    descricao: new FormControl(null),
-    precoCusto: new FormControl(null),
-    precoVenda: new FormControl(null),
-    codigoBarras: new FormControl(null),
+    idPessoa: new FormControl(null),
+    pessoa: new FormControl(null),
+    idUsuarioLancamento: new FormControl(null),
+    valorTotal: new FormControl(null),
+    dataHora: new FormControl(null),
+    pago: new FormControl(0),
   });
 
   constructor(
-    private readonly _produtoService: ProdutoService,
+    private readonly _recebimentoService: RecebimentoService,
     private readonly _injectorLocal: Injector,
   ) {
-    super(_produtoService, _injectorLocal);
+    super(_recebimentoService, _injectorLocal);
   }
 }
