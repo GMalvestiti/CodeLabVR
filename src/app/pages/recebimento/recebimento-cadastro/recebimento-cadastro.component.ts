@@ -222,8 +222,6 @@ export class RecebimentoCadastroComponent extends BaseCadastroComponent<IContaRe
   }
 
   baixar(): void {
-    console.log(this.baixaFormGroup.value);
-
     this.baixaFormGroup.markAllAsTouched();
 
     if (!this.baixaFormGroup.valid) {
