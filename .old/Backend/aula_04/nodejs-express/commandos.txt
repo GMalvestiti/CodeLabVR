@@ -1,9 +1,0 @@
-npx ts-node src/app.ts > executa app.ts diretamente com typescript
-
-npx tsc --build > build para produção (compilador ts para js)
-
-docker exec app npm i pg > instalação de pacote no container app
-
-docker inspect db > informações do container
-
-fakerjs.dev > gera dados falsos

@@ -74,8 +74,6 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
         return this.navigateToCadastro();
       }
 
-      console.log(response.data);
-
       this.patchFormForEdit(response.data);
     });
   }
