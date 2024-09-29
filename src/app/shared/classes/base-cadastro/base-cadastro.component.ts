@@ -30,13 +30,13 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
     return this.cadastroFormGroup.getRawValue() as TData;
   }
 
-  private readonly _router!: Router;
-  private readonly _route!: ActivatedRoute;
-  private readonly _dialog!: MatDialog;
-  private readonly _snackBar!: MatSnackBar;
+  protected readonly _router!: Router;
+  protected readonly _route!: ActivatedRoute;
+  protected readonly _dialog!: MatDialog;
+  protected readonly _snackBar!: MatSnackBar;
 
   constructor(
-    private readonly _service: BaseResourceService<TData>,
+    protected readonly _service: BaseResourceService<TData>,
     protected readonly _injector: Injector,
   ) {
     this._router = this._injector.get(Router);
@@ -87,7 +87,7 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
     this.cadastroFormGroup.patchValue({ ...values });
   }
 
-  private navigateToCadastro(): void {
+  protected navigateToCadastro(): void {
     this._router.navigate([`../../cadastro`], {
       relativeTo: this._route,
     });

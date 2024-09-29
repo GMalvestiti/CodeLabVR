@@ -11,8 +11,8 @@ import { IResponse } from '../../interfaces/response.interface';
   providedIn: 'root',
 })
 export abstract class BaseResourceService<TData> {
-  private readonly _http!: HttpClient;
-  private url!: string;
+  protected readonly _http!: HttpClient;
+  protected url!: string;
 
   constructor(
     protected readonly _injector: Injector,

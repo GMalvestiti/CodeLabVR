@@ -4,5 +4,5 @@ export enum EAPIPath {
   PRODUTO = 'produto',
   PESSOA = 'pessoa',
   VENDA = 'venda',
-  RECEBIMENTO = 'financeiro',
+  RECEBIMENTO = 'financeiro/conta-receber',
 }
