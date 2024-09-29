@@ -8,4 +8,5 @@ export enum EMensagem {
   REGISTRO_NAO_ENCONTRADO = 'Registro não encontrado!',
   SESSAO_EXPIRADA = 'Sessão expirada!',
   ADICIONAR_VENDA_ITEM = 'Adicione ao menos um item à venda!',
+  SENHA_ALTERADA_SUCESSO = 'Senha alterada com sucesso!',
 }

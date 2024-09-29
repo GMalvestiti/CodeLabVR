@@ -5,6 +5,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { PagesComponent } from './pages/pages.component';
 import { pagesRoutes } from './pages/pages.routes';
 import { authGuard } from './shared/guards/auth.guard';
+import { RecuperacaoSenhaComponent } from './recuperacao-senha/recuperacao-senha.component';
 
 export const routes: Routes = [
   {
@@ -20,6 +21,10 @@ export const routes: Routes = [
   {
     path: 'acesso-negado',
     component: AccessDeniedComponent,
+  },
+  {
+    path: 'recuperacao-senha',
+    component: RecuperacaoSenhaComponent,
   },
   {
     path: '404',
