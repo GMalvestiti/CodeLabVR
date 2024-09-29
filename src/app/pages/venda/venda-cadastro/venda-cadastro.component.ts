@@ -100,7 +100,7 @@ export class VendaCadastroComponent extends BaseCadastroComponent<IVenda> implem
     idProduto: new FormControl<number | null>(null, [Validators.required, Validators.pattern(ERegex.INTEIRO_POSITIVO)]),
     quantidade: new FormControl<number | null>(null, [Validators.required, Validators.pattern(ERegex.NUMERICO)]),
     precoVenda: new FormControl<number | null>(null, [Validators.required, Validators.pattern(ERegex.NUMERICO)]),
-    valorTotal: new FormControl<number | null>(null, [Validators.required, Validators.pattern(ERegex.NUMERICO)]),
+    valorTotal: new FormControl<number | null>(0, [Validators.required, Validators.pattern(ERegex.NUMERICO)]),
   });
 
   formaPagamentoOptions: ILabelValue[] = [
@@ -199,13 +199,6 @@ export class VendaCadastroComponent extends BaseCadastroComponent<IVenda> implem
       placeholder: 'Ex.: 10.00',
       class: 'grid-2',
     },
-    {
-      type: EFieldType.INPUT,
-      label: 'Valor Total',
-      formControlName: 'valorTotal',
-      placeholder: 'Ex.: 10.00',
-      class: 'grid-2',
-    },
   ];
 
   override ngOnInit(): void {
@@ -285,6 +278,15 @@ export class VendaCadastroComponent extends BaseCadastroComponent<IVenda> implem
     }
   }
 
+  private calcularValorTotal(): void {
+    const quantidade = this.vendaItemFormGroup.get('quantidade')?.value;
+    const precoVenda = this.vendaItemFormGroup.get('precoVenda')?.value;
+
+    if (quantidade && precoVenda) {
+      this.vendaItemFormGroup.patchValue({ valorTotal: quantidade * precoVenda });
+    }
+  }
+
   adicionarItem(): void {
     this.vendaItemFormGroup.markAllAsTouched();
 
@@ -296,6 +298,8 @@ export class VendaCadastroComponent extends BaseCadastroComponent<IVenda> implem
       });
       return;
     }
+
+    this.calcularValorTotal();
 
     const vendaItem: IVendaItem = this.vendaItemFormGroup.value as IVendaItem;
 
@@ -323,7 +327,7 @@ export class VendaCadastroComponent extends BaseCadastroComponent<IVenda> implem
     return true;
   }
 
-  override get cadastroFormValuesForSave() {
+  /*override get cadastroFormValuesForSave() {
     let venda: IVenda = this.cadastroFormGroup.getRawValue() as IVenda;
     let vendaItem: IVendaItem[] = venda.vendaitem as IVendaItem[];
 
@@ -348,5 +352,5 @@ export class VendaCadastroComponent extends BaseCadastroComponent<IVenda> implem
       formaPagamento: Number(venda.formaPagamento),
       vendaitem: vendaItem,
     };
-  }
+  }*/
 }
