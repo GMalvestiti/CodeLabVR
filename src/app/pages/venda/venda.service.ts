@@ -1,14 +1,13 @@
 import { Injectable, Injector } from '@angular/core';
 import { BaseResourceService } from '../../shared/classes/base-resource/base-resource.service';
 import { EAPIPath } from '../../shared/enums/api-info.enum';
-import { ITemplate } from './template.interface';
+import { IVenda } from './venda.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class TemplateService extends BaseResourceService<ITemplate> {
+export class VendaService extends BaseResourceService<IVenda> {
   constructor(protected readonly _injectorLocal: Injector) {
-    // TODO: Mudar o path
-    super(_injectorLocal, EAPIPath.HOME);
+    super(_injectorLocal, EAPIPath.VENDA);
   }
 }

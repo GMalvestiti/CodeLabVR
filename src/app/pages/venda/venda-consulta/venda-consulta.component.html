@@ -1,4 +1,4 @@
-<cl-page-layout [title]="'Consulta de Template'">
+<cl-page-layout [title]="'Consulta de Venda'">
   <ng-container leftActions>
     <cl-back-action></cl-back-action>
     <cl-add-action></cl-add-action>
@@ -24,19 +24,29 @@
         <td mat-cell *matCellDef="let row">{{ row.id | formatId }}</td>
       </ng-container>
 
-      <ng-container matColumnDef="nome">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome</th>
-        <td mat-cell *matCellDef="let row">{{ row.nome }}</td>
+      <ng-container matColumnDef="idPessoa">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Pessoa</th>
+        <td mat-cell *matCellDef="let row">{{ row.idPessoa | formatId }}</td>
       </ng-container>
 
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
-        <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+      <ng-container matColumnDef="idUsuarioLancamento">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Usuário</th>
+        <td mat-cell *matCellDef="let row">{{ row.idUsuarioLancamento | formatId }}</td>
       </ng-container>
 
-      <ng-container matColumnDef="admin">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Admin</th>
-        <td mat-cell *matCellDef="let row">{{ row.admin | boolToText }}</td>
+      <ng-container matColumnDef="valorTotal">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Valor Total</th>
+        <td mat-cell *matCellDef="let row">{{ row.valorTotal | formatReal }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="formaPagamento">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Forma de Pagamento</th>
+        <td mat-cell *matCellDef="let row">{{ row.formaPagamento | formatFormaPagamento }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="dataHora">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Data e Hora</th>
+        <td mat-cell *matCellDef="let row">{{ row.dataHora }}</td>
       </ng-container>
 
       <ng-container matColumnDef="acoes">

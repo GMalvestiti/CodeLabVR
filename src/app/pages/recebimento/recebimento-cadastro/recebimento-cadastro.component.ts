@@ -86,7 +86,7 @@ export class RecebimentoCadastroComponent extends BaseCadastroComponent<IContaRe
     id: new FormControl<number | null>({ value: null, disabled: true }),
     idPessoa: new FormControl<number | null>(null, [Validators.required, Validators.pattern(ERegex.INTEIRO_POSITIVO)]),
     pessoa: new FormControl<string | null>(null, [Validators.required, Validators.minLength(5), Validators.maxLength(100)]),
-    idUsuarioLancamento: new FormControl<number | null>(this._loginService.currentUser!.id, [Validators.required]),
+    idUsuarioLancamento: new FormControl<number | null>(this._loginService.currentUser!.id, [Validators.required, Validators.pattern(ERegex.INTEIRO_POSITIVO)]),
     valorTotal: new FormControl<number | null>(null, [Validators.required, Validators.pattern(ERegex.NUMERICO)]),
     dataHora: new FormControl<Date | null>(null),
     pago: new FormControl<boolean>(false),

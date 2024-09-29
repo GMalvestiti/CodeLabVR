@@ -5,6 +5,7 @@ import { usuarioRoutes } from './usuario/usuario.routes';
 import { produtoRoutes } from './produto/produto.routes';
 import { pessoaRoutes } from './pessoa/pessoa.routes';
 import { recebimentoRoutes } from './recebimento/recebimento.routes';
+import { vendaRoutes } from './venda/venda.routes';
 
 export const pagesRoutes: Routes = [
   {
@@ -22,5 +23,6 @@ export const pagesRoutes: Routes = [
   ...usuarioRoutes,
   ...produtoRoutes,
   ...pessoaRoutes,
+  ...vendaRoutes,
   ...recebimentoRoutes,
 ];

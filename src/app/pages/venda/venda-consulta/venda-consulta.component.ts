@@ -26,8 +26,11 @@ import {
 } from '../../../shared/interfaces/form-field.interface';
 import { BoolToTextPipe } from '../../../shared/pipes/bool-to-text.pipe';
 import { FormatIdPipe } from '../../../shared/pipes/format-id.pipe';
-import { ITemplate } from '../template.interface';
-import { TemplateService } from '../template.service';
+import { IVenda } from '../venda.interface';
+import { VendaService } from '../venda.service';
+import { EFormaPagamento, EFormaPagamentoDescricao } from '../../../shared/enums/forma-pagamento.enum';
+import { FormatRealPipe } from '../../../shared/pipes/format-real.pipe';
+import { FormatFormaPagamentoPipe } from '../../../shared/pipes/format-forma-pagamento.pipe';
 
 const actions = [BackActionComponent, AddActionComponent];
 const table = [
@@ -36,7 +39,7 @@ const table = [
   MatPaginatorModule,
   EmptyRowComponent,
 ];
-const pipes = [BoolToTextPipe, FormatIdPipe];
+const pipes = [BoolToTextPipe, FormatIdPipe, FormatRealPipe, FormatFormaPagamentoPipe];
 const form = [
   MatIconModule,
   MatInputModule,
@@ -56,27 +59,51 @@ const imports = [
 ];
 
 @Component({
-  selector: 'cl-template-consulta',
+  selector: 'cl-venda-consulta',
   standalone: true,
   imports,
-  templateUrl: './template-consulta.component.html',
-  styleUrl: './template-consulta.component.scss',
+  templateUrl: './venda-consulta.component.html',
+  styleUrl: './venda-consulta.component.scss',
 })
-export class TemplateConsultaComponent extends BaseConsultaComponent<ITemplate> {
-  displayedColumns: string[] = ['id', 'nome', 'email', 'admin', 'acoes'];
+export class VendaConsultaComponent extends BaseConsultaComponent<IVenda> {
+  displayedColumns: string[] = ['id', 'idPessoa', 'idUsuarioLancamento', 'valorTotal', 'formaPagamento', 'dataHora', 'acoes'];
 
-  adminOptions: ILabelValue[] = [
+  formaPagamentoOptions: ILabelValue[] = [
     {
       label: 'Todos',
       value: 0,
     },
     {
-      label: 'Sim',
-      value: true,
+      label: EFormaPagamentoDescricao.DINHEIRO,
+      value: EFormaPagamento.DINHEIRO,
     },
     {
-      label: 'Não',
-      value: false,
+      label: EFormaPagamentoDescricao.CARTAO_DEBITO,
+      value: EFormaPagamento.CARTAO_DEBITO,
+    },
+    {
+      label: EFormaPagamentoDescricao.CARTAO_CREDITO,
+      value: EFormaPagamento.CARTAO_CREDITO,
+    },
+    {
+      label: EFormaPagamentoDescricao.PIX,
+      value: EFormaPagamento.PIX,
+    },
+    {
+      label: EFormaPagamentoDescricao.BOLETO,
+      value: EFormaPagamento.BOLETO,
+    },
+    {
+      label: EFormaPagamentoDescricao.CHEQUE,
+      value: EFormaPagamento.CHEQUE,
+    },
+    {
+      label: EFormaPagamentoDescricao.TRANSFERENCIA,
+      value: EFormaPagamento.TRANSFERENCIA,
+    },
+    {
+      label: EFormaPagamentoDescricao.OUTROS,
+      value: EFormaPagamento.OUTROS,
     },
   ];
 
@@ -85,44 +112,53 @@ export class TemplateConsultaComponent extends BaseConsultaComponent<ITemplate> 
       type: EFieldType.INPUT,
       label: 'Código',
       formControlName: 'id',
-      placeholder: 'Ex.: 1',
+      placeholder: 'Ex.: 10',
       class: 'grid-1',
     },
     {
       type: EFieldType.INPUT,
-      label: 'Nome',
-      formControlName: 'nome',
-      placeholder: 'Ex.: José',
-      class: 'grid-2',
+      label: 'Pessoa',
+      formControlName: 'id',
+      placeholder: 'Ex.: 10',
+      class: 'grid-1',
     },
     {
       type: EFieldType.INPUT,
-      label: 'Email',
-      formControlName: 'email',
-      placeholder: 'Ex.: jose@gmail.com',
+      label: 'Usuário',
+      formControlName: 'id',
+      placeholder: 'Ex.: 10',
+      class: 'grid-1',
+    },
+    {
+      type: EFieldType.INPUT,
+      label: 'Valor Total',
+      formControlName: 'valorTotal',
+      placeholder: 'Ex.: 10.00',
       class: 'grid-2',
     },
     {
       type: EFieldType.SELECT,
-      label: 'Admin',
-      formControlName: 'admin',
-      placeholder: '',
-      class: 'grid-1',
-      options: Promise.resolve(this.adminOptions),
+      label: 'Forma de Pagamento',
+      formControlName: 'formaPagamento',
+      placeholder: 'Ex.: Dinheiro',
+      class: 'grid-2',
+      options: Promise.resolve(this.formaPagamentoOptions),
     },
   ];
 
   filterFormGroup = new FormGroup({
     id: new FormControl(null),
-    nome: new FormControl(null),
-    email: new FormControl(null),
-    admin: new FormControl(0),
+    idPessoa: new FormControl(null),
+    idUsuarioLancamento: new FormControl(null),
+    valorTotal: new FormControl(null),
+    formaPagamento: new FormControl(0),
+    dataHora: new FormControl(null),
   });
 
   constructor(
-    private readonly _templateService: TemplateService,
+    private readonly _vendaService : VendaService,
     private readonly _injectorLocal: Injector,
   ) {
-    super(_templateService, _injectorLocal);
+    super(_vendaService, _injectorLocal);
   }
 }

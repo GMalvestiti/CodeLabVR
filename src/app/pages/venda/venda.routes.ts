@@ -1,29 +1,28 @@
 import { Routes } from '@angular/router';
 import { EMenuPermissao } from '../../shared/enums/menu-permissao.enum';
 import { pendingChangesGuard } from '../../shared/guards/pending-changes.guard';
-import { TemplateCadastroComponent } from './template-cadastro/template-cadastro.component';
-import { TemplateConsultaComponent } from './template-consulta/template-consulta.component';
+import { VendaCadastroComponent } from './venda-cadastro/venda-cadastro.component';
+import { VendaConsultaComponent } from './venda-consulta/venda-consulta.component';
 
-export const templateRoutes: Routes = [
+export const vendaRoutes: Routes = [
   {
-    path: 'template',
+    path: 'venda',
     data: {
-      // TODO: Mudar a permissão
-      modulo: EMenuPermissao.HOME,
+      modulo: EMenuPermissao.VENDA,
     },
     children: [
       {
         path: 'consulta',
-        component: TemplateConsultaComponent,
+        component: VendaConsultaComponent,
       },
       {
         path: 'cadastro',
-        component: TemplateCadastroComponent,
+        component: VendaCadastroComponent,
         canDeactivate: [pendingChangesGuard],
       },
       {
         path: 'editar/:id',
-        component: TemplateCadastroComponent,
+        component: VendaCadastroComponent,
         canDeactivate: [pendingChangesGuard],
       },
       {
