@@ -113,7 +113,7 @@ export class RecebimentoCadastroComponent extends BaseCadastroComponent<IContaRe
       type: EFieldType.INPUT,
       label: 'Código de Pessoa',
       formControlName: 'idPessoa',
-      placeholder: 'Ex.: 1',
+      placeholder: 'Ex.: 10',
       class: 'grid-2',
     },
     {

@@ -95,8 +95,16 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
     });
   }
 
+  protected shouldSave(): boolean {
+    return true;
+  }
+
   save(addNew: boolean = false): void {
     this.cadastroFormGroup.markAllAsTouched();
+
+    if (!this.shouldSave()) {
+      return;
+    }
 
     if (!this.cadastroFormGroup.valid) {
       this.openSnackBar({

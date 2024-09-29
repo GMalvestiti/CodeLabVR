@@ -10,9 +10,9 @@ export interface IVenda {
 
 export interface IVendaItem {
   id: number;
-  idVenda: number;
+  idVenda: number | null;
   idProduto: number;
   quantidade: number;
-  precoVenda: Date | null;
+  precoVenda: number;
   valorTotal: number;
 }

@@ -85,7 +85,7 @@ export class UsuarioConsultaComponent extends BaseConsultaComponent<IUsuario> {
       type: EFieldType.INPUT,
       label: 'Código',
       formControlName: 'id',
-      placeholder: 'Ex.: 1',
+      placeholder: 'Ex.: 10',
       class: 'grid-1',
     },
     {

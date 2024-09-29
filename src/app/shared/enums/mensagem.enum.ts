@@ -7,4 +7,5 @@ export enum EMensagem {
   FECHAR = 'fechar',
   REGISTRO_NAO_ENCONTRADO = 'Registro não encontrado!',
   SESSAO_EXPIRADA = 'Sessão expirada!',
+  ADICIONAR_VENDA_ITEM = 'Adicione ao menos um item à venda!',
 }

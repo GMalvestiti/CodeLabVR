@@ -86,7 +86,7 @@ export class RecebimentoConsultaComponent extends BaseConsultaComponent<IContaRe
       type: EFieldType.INPUT,
       label: 'Código',
       formControlName: 'id',
-      placeholder: 'Ex.: 1',
+      placeholder: 'Ex.: 10',
       class: 'grid-1',
     },
     {
@@ -100,7 +100,7 @@ export class RecebimentoConsultaComponent extends BaseConsultaComponent<IContaRe
       type: EFieldType.INPUT,
       label: 'Valor Total',
       formControlName: 'valorTotal',
-      placeholder: 'Ex.: 10.000',
+      placeholder: 'Ex.: 10.00',
       class: 'grid-2',
     },
     {

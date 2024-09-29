@@ -77,7 +77,7 @@ export class ProdutoConsultaComponent extends BaseConsultaComponent<IProduto> {
       type: EFieldType.INPUT,
       label: 'Código',
       formControlName: 'id',
-      placeholder: 'Ex.: 1',
+      placeholder: 'Ex.: 10',
       class: 'grid-1',
     },
     {
@@ -91,14 +91,14 @@ export class ProdutoConsultaComponent extends BaseConsultaComponent<IProduto> {
       type: EFieldType.INPUT,
       label: 'Preço de Custo',
       formControlName: 'precoCusto',
-      placeholder: 'Ex.: 10.000',
+      placeholder: 'Ex.: 10.00',
       class: 'grid-2',
     },
     {
       type: EFieldType.INPUT,
       label: 'Preço de Venda',
       formControlName: 'precoVenda',
-      placeholder: 'Ex.: 10.000',
+      placeholder: 'Ex.: 10.00',
       class: 'grid-2',
     },
     {
