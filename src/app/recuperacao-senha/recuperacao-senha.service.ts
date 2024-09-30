@@ -12,16 +12,12 @@ import { IRecuperacaoSenha } from './recuperacao-senha.interface';
 export class RecuperacaoSenhaService {
   private url = `${environment.baseUrl}/${EAPIPath.USUARIO}/alterar-senha`;
 
-  constructor(
-    private readonly _http: HttpClient,
-  ) {}
+  constructor(private readonly _http: HttpClient) {}
 
   recuperarSenha(payload: IRecuperacaoSenha) {
     console.log(this.url);
     return this._http
       .put<IResponse<boolean>>(`${this.url}`, payload)
-      .pipe(
-        take(1),
-      );
+      .pipe(take(1));
   }
 }

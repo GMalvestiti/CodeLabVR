@@ -15,13 +15,23 @@ import { SaveAddActionComponent } from '../../../shared/components/action-bar/sa
 import { FormFieldsListComponent } from '../../../shared/components/form-fields-list/form-fields-list.component';
 import { PageLayoutComponent } from '../../../shared/components/page-layout/page-layout.component';
 import { EFieldType } from '../../../shared/enums/field-type.enum';
-import { IFormField, ILabelValue } from '../../../shared/interfaces/form-field.interface';
+import {
+  IFormField,
+  ILabelValue,
+} from '../../../shared/interfaces/form-field.interface';
 import { VendaService } from '../venda.service';
 import { IVenda, IVendaItem } from '../venda.interface';
-import { EFormaPagamento, EFormaPagamentoDescricao } from '../../../shared/enums/forma-pagamento.enum';
+import {
+  EFormaPagamento,
+  EFormaPagamentoDescricao,
+} from '../../../shared/enums/forma-pagamento.enum';
 import { LoginService } from '../../../login/login.service';
 import { ERegex } from '../../../shared/enums/regex.enum';
-import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import {
+  MatPaginator,
+  MatPaginatorModule,
+  PageEvent,
+} from '@angular/material/paginator';
 import { FormatIdPipe } from '../../../shared/pipes/format-id.pipe';
 import { FormatRealPipe } from '../../../shared/pipes/format-real.pipe';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -64,10 +74,19 @@ const components = [MatButtonModule];
   templateUrl: './venda-cadastro.component.html',
   styleUrl: './venda-cadastro.component.scss',
 })
-export class VendaCadastroComponent extends BaseCadastroComponent<IVenda> implements AfterViewInit {
+export class VendaCadastroComponent
+  extends BaseCadastroComponent<IVenda>
+  implements AfterViewInit
+{
   @ViewChild(MatPaginator) paginatorEl!: MatPaginator;
 
-  protected displayedColumns: string[] = ['id', 'idProduto', 'quantidade', 'precoVenda', 'valorTotal'];
+  protected displayedColumns: string[] = [
+    'id',
+    'idProduto',
+    'quantidade',
+    'precoVenda',
+    'valorTotal',
+  ];
 
   dataSource = new MatTableDataSource<IVendaItem>([]);
   sort: Sort = { active: 'id', direction: 'asc' };
@@ -77,7 +96,7 @@ export class VendaCadastroComponent extends BaseCadastroComponent<IVenda> implem
   protected loading = false;
 
   constructor(
-    private readonly _vendaService : VendaService,
+    private readonly _vendaService: VendaService,
     private readonly _loginService: LoginService,
     protected override readonly _injector: Injector,
   ) {
@@ -86,10 +105,22 @@ export class VendaCadastroComponent extends BaseCadastroComponent<IVenda> implem
 
   cadastroFormGroup = new FormGroup({
     id: new FormControl<number | null>({ value: null, disabled: true }),
-    idPessoa: new FormControl<number | null>(null, [Validators.required, Validators.pattern(ERegex.INTEIRO_POSITIVO)]),
-    idUsuarioLancamento: new FormControl<number | null>(this._loginService.currentUser!.id, [Validators.required,Validators.pattern(ERegex.INTEIRO_POSITIVO)]),
-    valorTotal: new FormControl<number | null>(null, [Validators.required, Validators.pattern(ERegex.NUMERICO)]),
-    formaPagamento: new FormControl<number | null>(EFormaPagamento.DINHEIRO, [Validators.required, Validators.pattern(ERegex.INTEIRO_POSITIVO)]),
+    idPessoa: new FormControl<number | null>(null, [
+      Validators.required,
+      Validators.pattern(ERegex.INTEIRO_POSITIVO),
+    ]),
+    idUsuarioLancamento: new FormControl<number | null>(
+      this._loginService.currentUser!.id,
+      [Validators.required, Validators.pattern(ERegex.INTEIRO_POSITIVO)],
+    ),
+    valorTotal: new FormControl<number | null>(null, [
+      Validators.required,
+      Validators.pattern(ERegex.NUMERICO),
+    ]),
+    formaPagamento: new FormControl<number | null>(EFormaPagamento.DINHEIRO, [
+      Validators.required,
+      Validators.pattern(ERegex.INTEIRO_POSITIVO),
+    ]),
     dataHora: new FormControl<Date | null>(null),
     vendaitem: new FormControl<IVendaItem[]>([]),
   });
@@ -97,10 +128,22 @@ export class VendaCadastroComponent extends BaseCadastroComponent<IVenda> implem
   vendaItemFormGroup: FormGroup = new FormGroup({
     id: new FormControl<number | null>({ value: null, disabled: true }),
     idVenda: new FormControl<number | null>(null),
-    idProduto: new FormControl<number | null>(null, [Validators.required, Validators.pattern(ERegex.INTEIRO_POSITIVO)]),
-    quantidade: new FormControl<number | null>(null, [Validators.required, Validators.pattern(ERegex.NUMERICO)]),
-    precoVenda: new FormControl<number | null>(null, [Validators.required, Validators.pattern(ERegex.NUMERICO)]),
-    valorTotal: new FormControl<number | null>(0, [Validators.required, Validators.pattern(ERegex.NUMERICO)]),
+    idProduto: new FormControl<number | null>(null, [
+      Validators.required,
+      Validators.pattern(ERegex.INTEIRO_POSITIVO),
+    ]),
+    quantidade: new FormControl<number | null>(null, [
+      Validators.required,
+      Validators.pattern(ERegex.NUMERICO),
+    ]),
+    precoVenda: new FormControl<number | null>(null, [
+      Validators.required,
+      Validators.pattern(ERegex.NUMERICO),
+    ]),
+    valorTotal: new FormControl<number | null>(0, [
+      Validators.required,
+      Validators.pattern(ERegex.NUMERICO),
+    ]),
   });
 
   formaPagamentoOptions: ILabelValue[] = [
@@ -214,7 +257,8 @@ export class VendaCadastroComponent extends BaseCadastroComponent<IVenda> implem
   search(): void {
     this.loading = true;
 
-    this.dataSource.data = this.cadastroFormGroup.get('vendaitem')?.value as IVendaItem[];
+    this.dataSource.data = this.cadastroFormGroup.get('vendaitem')
+      ?.value as IVendaItem[];
 
     const idColumn = this.sort.active;
     const direction = this.sort.direction === 'asc' ? 1 : -1;
@@ -241,7 +285,10 @@ export class VendaCadastroComponent extends BaseCadastroComponent<IVenda> implem
     });
 
     const start = this.page.pageIndex * this.page.pageSize;
-    this.dataSource.data = this.dataSource.data.slice(start, start + this.page.pageSize);
+    this.dataSource.data = this.dataSource.data.slice(
+      start,
+      start + this.page.pageSize,
+    );
 
     this.paginatorEl.length = this.count;
 
@@ -260,7 +307,7 @@ export class VendaCadastroComponent extends BaseCadastroComponent<IVenda> implem
 
   loadVendaItem(): void {
     if (!this.idEdit) {
-      return
+      return;
     }
 
     this._vendaService.findOneById(this.idEdit).subscribe((response) => {
@@ -283,7 +330,9 @@ export class VendaCadastroComponent extends BaseCadastroComponent<IVenda> implem
     const precoVenda = this.vendaItemFormGroup.get('precoVenda')?.value;
 
     if (quantidade && precoVenda) {
-      this.vendaItemFormGroup.patchValue({ valorTotal: quantidade * precoVenda });
+      this.vendaItemFormGroup.patchValue({
+        valorTotal: quantidade * precoVenda,
+      });
     }
   }
 

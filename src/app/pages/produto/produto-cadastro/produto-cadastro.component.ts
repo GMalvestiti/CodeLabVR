@@ -60,10 +60,22 @@ export class ProdutoCadastroComponent extends BaseCadastroComponent<IProduto> {
 
   cadastroFormGroup = new FormGroup({
     id: new FormControl({ value: null, disabled: true }),
-    descricao: new FormControl(null, [Validators.required, Validators.minLength(5)]),
-    precoCusto: new FormControl(null, [Validators.required, Validators.pattern(ERegex.NUMERICO)]),
-    precoVenda: new FormControl(null, [Validators.required, Validators.pattern(ERegex.NUMERICO)]),
-    codigoBarras: new FormControl(null, [Validators.required, Validators.pattern(ERegex.CODIGO_BARRAS)]),
+    descricao: new FormControl(null, [
+      Validators.required,
+      Validators.minLength(5),
+    ]),
+    precoCusto: new FormControl(null, [
+      Validators.required,
+      Validators.pattern(ERegex.NUMERICO),
+    ]),
+    precoVenda: new FormControl(null, [
+      Validators.required,
+      Validators.pattern(ERegex.NUMERICO),
+    ]),
+    codigoBarras: new FormControl(null, [
+      Validators.required,
+      Validators.pattern(ERegex.CODIGO_BARRAS),
+    ]),
     imagem: new FormControl(null),
     ativo: new FormControl(true),
   });

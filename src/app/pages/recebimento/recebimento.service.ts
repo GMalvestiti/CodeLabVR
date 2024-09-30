@@ -16,6 +16,8 @@ export class RecebimentoService extends BaseResourceService<IContaReceber> {
   protected urlBaixar = `${this.url}/baixar`;
 
   baixar(data: IContaReceberBaixa): Observable<IResponse<boolean>> {
-    return this._http.put<IResponse<boolean>>(this.urlBaixar, data).pipe(take(1));
+    return this._http
+      .put<IResponse<boolean>>(this.urlBaixar, data)
+      .pipe(take(1));
   }
 }

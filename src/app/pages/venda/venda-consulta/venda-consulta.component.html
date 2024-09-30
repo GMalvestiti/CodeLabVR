@@ -31,17 +31,25 @@
 
       <ng-container matColumnDef="idUsuarioLancamento">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Usuário</th>
-        <td mat-cell *matCellDef="let row">{{ row.idUsuarioLancamento | formatId }}</td>
+        <td mat-cell *matCellDef="let row">
+          {{ row.idUsuarioLancamento | formatId }}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="valorTotal">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Valor Total</th>
-        <td mat-cell *matCellDef="let row">{{ row.valorTotal | formatReal }}</td>
+        <td mat-cell *matCellDef="let row">
+          {{ row.valorTotal | formatReal }}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="formaPagamento">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Forma de Pagamento</th>
-        <td mat-cell *matCellDef="let row">{{ row.formaPagamento | formatFormaPagamento }}</td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Forma de Pagamento
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{ row.formaPagamento | formatFormaPagamento }}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="dataHora">

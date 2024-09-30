@@ -1,4 +1,4 @@
-import { FormatCodigoBarras } from "./format-codigo-barras.pipe";
+import { FormatCodigoBarras } from './format-codigo-barras.pipe';
 
 describe('FormatCodigoBarras', () => {
   it('create an instance', () => {

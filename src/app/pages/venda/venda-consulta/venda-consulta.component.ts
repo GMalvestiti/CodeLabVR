@@ -28,7 +28,10 @@ import { BoolToTextPipe } from '../../../shared/pipes/bool-to-text.pipe';
 import { FormatIdPipe } from '../../../shared/pipes/format-id.pipe';
 import { IVenda } from '../venda.interface';
 import { VendaService } from '../venda.service';
-import { EFormaPagamento, EFormaPagamentoDescricao } from '../../../shared/enums/forma-pagamento.enum';
+import {
+  EFormaPagamento,
+  EFormaPagamentoDescricao,
+} from '../../../shared/enums/forma-pagamento.enum';
 import { FormatRealPipe } from '../../../shared/pipes/format-real.pipe';
 import { FormatFormaPagamentoPipe } from '../../../shared/pipes/format-forma-pagamento.pipe';
 
@@ -39,7 +42,12 @@ const table = [
   MatPaginatorModule,
   EmptyRowComponent,
 ];
-const pipes = [BoolToTextPipe, FormatIdPipe, FormatRealPipe, FormatFormaPagamentoPipe];
+const pipes = [
+  BoolToTextPipe,
+  FormatIdPipe,
+  FormatRealPipe,
+  FormatFormaPagamentoPipe,
+];
 const form = [
   MatIconModule,
   MatInputModule,
@@ -66,7 +74,15 @@ const imports = [
   styleUrl: './venda-consulta.component.scss',
 })
 export class VendaConsultaComponent extends BaseConsultaComponent<IVenda> {
-  displayedColumns: string[] = ['id', 'idPessoa', 'idUsuarioLancamento', 'valorTotal', 'formaPagamento', 'dataHora', 'acoes'];
+  displayedColumns: string[] = [
+    'id',
+    'idPessoa',
+    'idUsuarioLancamento',
+    'valorTotal',
+    'formaPagamento',
+    'dataHora',
+    'acoes',
+  ];
 
   formaPagamentoOptions: ILabelValue[] = [
     {
@@ -156,7 +172,7 @@ export class VendaConsultaComponent extends BaseConsultaComponent<IVenda> {
   });
 
   constructor(
-    private readonly _vendaService : VendaService,
+    private readonly _vendaService: VendaService,
     private readonly _injectorLocal: Injector,
   ) {
     super(_vendaService, _injectorLocal);

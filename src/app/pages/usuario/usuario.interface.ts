@@ -1,4 +1,4 @@
-import { EMenuPermissao } from "../../shared/enums/menu-permissao.enum";
+import { EMenuPermissao } from '../../shared/enums/menu-permissao.enum';
 
 export interface IUsuario {
   id: number;

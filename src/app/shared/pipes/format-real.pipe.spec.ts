@@ -1,4 +1,4 @@
-import { FormatReal } from "./format-real.pipe";
+import { FormatReal } from './format-real.pipe';
 
 describe('FormatReal', () => {
   it('create an instance', () => {

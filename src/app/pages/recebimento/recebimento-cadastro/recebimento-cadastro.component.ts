@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, Injector, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Injector,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -20,7 +26,11 @@ import { RecebimentoService } from '../recebimento.service';
 import { IContaReceber, IContaReceberBaixa } from '../recebimento.interface';
 import { LoginService } from '../../../login/login.service';
 import { ERegex } from '../../../shared/enums/regex.enum';
-import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import {
+  MatPaginator,
+  MatPaginatorModule,
+  PageEvent,
+} from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { getPaginatorIntl } from '../../../shared/helpers/paginator.intl.helper';
@@ -62,10 +72,19 @@ const components = [MatButtonModule, MatCheckboxModule];
   templateUrl: './recebimento-cadastro.component.html',
   styleUrl: './recebimento-cadastro.component.scss',
 })
-export class RecebimentoCadastroComponent extends BaseCadastroComponent<IContaReceber> implements AfterViewInit {
+export class RecebimentoCadastroComponent
+  extends BaseCadastroComponent<IContaReceber>
+  implements AfterViewInit
+{
   @ViewChild(MatPaginator) paginatorEl!: MatPaginator;
 
-  protected displayedColumns: string[] = ['id', 'idContaReceber', 'idUsuarioBaixa', 'valorPago', 'dataHora'];
+  protected displayedColumns: string[] = [
+    'id',
+    'idContaReceber',
+    'idUsuarioBaixa',
+    'valorPago',
+    'dataHora',
+  ];
 
   dataSource = new MatTableDataSource<IContaReceberBaixa>([]);
   sort: Sort = { active: 'id', direction: 'asc' };
@@ -84,10 +103,23 @@ export class RecebimentoCadastroComponent extends BaseCadastroComponent<IContaRe
 
   cadastroFormGroup = new FormGroup({
     id: new FormControl<number | null>({ value: null, disabled: true }),
-    idPessoa: new FormControl<number | null>(null, [Validators.required, Validators.pattern(ERegex.INTEIRO_POSITIVO)]),
-    pessoa: new FormControl<string | null>(null, [Validators.required, Validators.minLength(5), Validators.maxLength(100)]),
-    idUsuarioLancamento: new FormControl<number | null>(this._loginService.currentUser!.id, [Validators.required, Validators.pattern(ERegex.INTEIRO_POSITIVO)]),
-    valorTotal: new FormControl<number | null>(null, [Validators.required, Validators.pattern(ERegex.NUMERICO)]),
+    idPessoa: new FormControl<number | null>(null, [
+      Validators.required,
+      Validators.pattern(ERegex.INTEIRO_POSITIVO),
+    ]),
+    pessoa: new FormControl<string | null>(null, [
+      Validators.required,
+      Validators.minLength(5),
+      Validators.maxLength(100),
+    ]),
+    idUsuarioLancamento: new FormControl<number | null>(
+      this._loginService.currentUser!.id,
+      [Validators.required, Validators.pattern(ERegex.INTEIRO_POSITIVO)],
+    ),
+    valorTotal: new FormControl<number | null>(null, [
+      Validators.required,
+      Validators.pattern(ERegex.NUMERICO),
+    ]),
     dataHora: new FormControl<Date | null>(null),
     pago: new FormControl<boolean>(false),
     baixa: new FormControl<IContaReceberBaixa[]>([]),
@@ -96,8 +128,13 @@ export class RecebimentoCadastroComponent extends BaseCadastroComponent<IContaRe
   baixaFormGroup: FormGroup = new FormGroup({
     id: new FormControl<number | null>({ value: null, disabled: true }),
     idContaReceber: new FormControl<number | null>(null),
-    idUsuarioBaixa: new FormControl<number | null>(this._loginService.currentUser!.id),
-    valorPago: new FormControl<number | null>(null, [Validators.required, Validators.pattern(ERegex.NUMERICO)]),
+    idUsuarioBaixa: new FormControl<number | null>(
+      this._loginService.currentUser!.id,
+    ),
+    valorPago: new FormControl<number | null>(null, [
+      Validators.required,
+      Validators.pattern(ERegex.NUMERICO),
+    ]),
     dataHora: new FormControl<Date | null>(null),
   });
 
@@ -153,7 +190,7 @@ export class RecebimentoCadastroComponent extends BaseCadastroComponent<IContaRe
       formControlName: 'valorPago',
       placeholder: 'Ex.: 10.00',
       class: 'grid-2',
-    }
+    },
   ];
 
   override ngOnInit(): void {
@@ -173,7 +210,8 @@ export class RecebimentoCadastroComponent extends BaseCadastroComponent<IContaRe
   search(): void {
     this.loading = true;
 
-    this.dataSource.data = this.cadastroFormGroup.get('baixa')?.value as IContaReceberBaixa[];
+    this.dataSource.data = this.cadastroFormGroup.get('baixa')
+      ?.value as IContaReceberBaixa[];
 
     const idColumn = this.sort.active;
     const direction = this.sort.direction === 'asc' ? 1 : -1;
@@ -190,7 +228,10 @@ export class RecebimentoCadastroComponent extends BaseCadastroComponent<IContaRe
     });
 
     const start = this.page.pageIndex * this.page.pageSize;
-    this.dataSource.data = this.dataSource.data.slice(start, start + this.page.pageSize);
+    this.dataSource.data = this.dataSource.data.slice(
+      start,
+      start + this.page.pageSize,
+    );
 
     this.paginatorEl.length = this.count;
 
@@ -209,7 +250,8 @@ export class RecebimentoCadastroComponent extends BaseCadastroComponent<IContaRe
 
   loadBaixas(): void {
     this._recebimentoService.findOneById(this.idEdit).subscribe((response) => {
-      const baixas: IContaReceberBaixa[] = response.data.baixa as IContaReceberBaixa[];
+      const baixas: IContaReceberBaixa[] = response.data
+        .baixa as IContaReceberBaixa[];
       this.cadastroFormGroup.patchValue({ baixa: baixas });
 
       this.count = baixas.length;
@@ -233,14 +275,16 @@ export class RecebimentoCadastroComponent extends BaseCadastroComponent<IContaRe
       return;
     }
 
-    this._recebimentoService.baixar(this.baixaFormGroup.value).subscribe((response) => {
-      this.openSnackBar({
-        message: response.message,
-        buttonText: EMensagem.FECHAR,
-        type: ESnackbarType.success,
-      });
+    this._recebimentoService
+      .baixar(this.baixaFormGroup.value)
+      .subscribe((response) => {
+        this.openSnackBar({
+          message: response.message,
+          buttonText: EMensagem.FECHAR,
+          type: ESnackbarType.success,
+        });
 
-      this.loadBaixas();
-    });
+        this.loadBaixas();
+      });
   }
 }

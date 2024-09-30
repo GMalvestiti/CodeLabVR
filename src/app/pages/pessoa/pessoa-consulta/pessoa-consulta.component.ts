@@ -63,7 +63,15 @@ const imports = [
   styleUrl: './pessoa-consulta.component.scss',
 })
 export class PessoaConsultaComponent extends BaseConsultaComponent<IPessoa> {
-  displayedColumns: string[] = ['id', 'nome', 'documento', 'cep', 'endereco', 'telefone', 'acoes'];
+  displayedColumns: string[] = [
+    'id',
+    'nome',
+    'documento',
+    'cep',
+    'endereco',
+    'telefone',
+    'acoes',
+  ];
 
   filterFields: IFormField[] = [
     {
@@ -107,7 +115,7 @@ export class PessoaConsultaComponent extends BaseConsultaComponent<IPessoa> {
       formControlName: 'telefone',
       placeholder: 'Ex.: 199 18521516',
       class: 'grid-2',
-    }
+    },
   ];
 
   filterFormGroup = new FormGroup({
@@ -116,7 +124,7 @@ export class PessoaConsultaComponent extends BaseConsultaComponent<IPessoa> {
     documento: new FormControl(null),
     cep: new FormControl(null),
     endereco: new FormControl(null),
-    telefone: new FormControl(null)
+    telefone: new FormControl(null),
   });
 
   constructor(

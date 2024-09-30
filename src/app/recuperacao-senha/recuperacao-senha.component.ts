@@ -31,17 +31,17 @@ const components = [
   standalone: true,
   imports: [...components],
   templateUrl: './recuperacao-senha.component.html',
-  styleUrl: './recuperacao-senha.component.scss'
+  styleUrl: './recuperacao-senha.component.scss',
 })
 export class RecuperacaoSenhaComponent implements OnInit {
   protected email: string = '';
   protected token: string = '';
 
   constructor(
-    protected readonly _router : Router,
+    protected readonly _router: Router,
     protected readonly _activatedRoute: ActivatedRoute,
     protected readonly _snackBar: MatSnackBar,
-    protected readonly _recuperacaoSenhaService : RecuperacaoSenhaService,
+    protected readonly _recuperacaoSenhaService: RecuperacaoSenhaService,
   ) {}
 
   recuperarSenhaForm = new FormGroup({
@@ -49,7 +49,10 @@ export class RecuperacaoSenhaComponent implements OnInit {
       Validators.required,
       Validators.email,
     ]),
-    senha: new FormControl<string | null>(null, [Validators.required, Validators.minLength(5)]),
+    senha: new FormControl<string | null>(null, [
+      Validators.required,
+      Validators.minLength(5),
+    ]),
     token: new FormControl<string | null>(this.token, [Validators.required]),
   });
 
@@ -67,7 +70,7 @@ export class RecuperacaoSenhaComponent implements OnInit {
   }
 
   carregarParametros(): void {
-    this._activatedRoute.queryParams.subscribe(params => {
+    this._activatedRoute.queryParams.subscribe((params) => {
       this.email = params['email'];
       this.token = params['token'];
 
@@ -92,7 +95,8 @@ export class RecuperacaoSenhaComponent implements OnInit {
       return;
     }
 
-    const data: IRecuperacaoSenha = this.recuperarSenhaForm.getRawValue() as IRecuperacaoSenha;
+    const data: IRecuperacaoSenha =
+      this.recuperarSenhaForm.getRawValue() as IRecuperacaoSenha;
 
     if (!data.email || !data.token) {
       this.openSnackBar({

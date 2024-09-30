@@ -1,4 +1,4 @@
-import { FormatFormaPagamentoPipe } from "./format-forma-pagamento.pipe";
+import { FormatFormaPagamentoPipe } from './format-forma-pagamento.pipe';
 
 describe('FormatFormaPagamentoPipe', () => {
   it('create an instance', () => {

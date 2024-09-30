@@ -119,22 +119,20 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
   protected saveEditar(addNew: boolean): void {
     const data = this.cadastroFormValuesForSave;
 
-    this._service
-      .updateById(this.idEdit, data)
-      .subscribe((response) => {
-        this.openSnackBar({
-          message: response.message,
-          buttonText: EMensagem.FECHAR,
-          type: ESnackbarType.success,
-        });
-
-        if (addNew) {
-          this.cadastroFormGroup.markAsUntouched();
-          this.navigateToCadastro();
-        } else {
-          this.actionsAfterUpdate(response.data);
-        }
+    this._service.updateById(this.idEdit, data).subscribe((response) => {
+      this.openSnackBar({
+        message: response.message,
+        buttonText: EMensagem.FECHAR,
+        type: ESnackbarType.success,
       });
+
+      if (addNew) {
+        this.cadastroFormGroup.markAsUntouched();
+        this.navigateToCadastro();
+      } else {
+        this.actionsAfterUpdate(response.data);
+      }
+    });
   }
 
   protected actionsAfterUpdate(data: TData): void {

@@ -36,7 +36,12 @@ const table = [
   MatPaginatorModule,
   EmptyRowComponent,
 ];
-const pipes = [BoolToTextPipe, FormatIdPipe, FormatCodigoBarras, FormatRealPipe];
+const pipes = [
+  BoolToTextPipe,
+  FormatIdPipe,
+  FormatCodigoBarras,
+  FormatRealPipe,
+];
 const form = [
   MatIconModule,
   MatInputModule,
