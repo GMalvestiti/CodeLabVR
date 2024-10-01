@@ -120,7 +120,7 @@ export class PessoaConsultaComponent extends BaseConsultaComponent<IPessoa> {
 
   filterFormGroup = new FormGroup({
     id: new FormControl(null),
-    nome: new FormControl(null),
+    nome: new FormControl<string | null>(null),
     documento: new FormControl(null),
     cep: new FormControl(null),
     endereco: new FormControl(null),

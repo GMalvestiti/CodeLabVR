@@ -22,6 +22,10 @@ export abstract class BaseResourceService<TData> {
     this.url = `${environment.baseUrl}/${path}`;
   }
 
+  get apiUrl(): string {
+    return this.url;
+  }
+
   findAll(
     page: PageEvent,
     sort: Sort,

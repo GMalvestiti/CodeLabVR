@@ -51,19 +51,19 @@ export class PessoaCadastroComponent extends BaseCadastroComponent<IPessoa> {
 
   cadastroFormGroup = new FormGroup({
     id: new FormControl({ value: null, disabled: true }),
-    nome: new FormControl(null, [
+    nome: new FormControl<string | null>(null, [
       Validators.required,
       Validators.minLength(5),
       Validators.maxLength(100),
     ]),
-    documento: new FormControl(null, [
+    documento: new FormControl<string | null>(null, [
       Validators.required,
       Validators.minLength(11),
       Validators.maxLength(14),
     ]),
-    cep: new FormControl(null, [Validators.required, Validators.maxLength(10)]),
-    endereco: new FormControl(null, [Validators.required]),
-    telefone: new FormControl(null, [
+    cep: new FormControl<string | null>(null, [Validators.required, Validators.maxLength(10)]),
+    endereco: new FormControl<string | null>(null, [Validators.required]),
+    telefone: new FormControl<string | null>(null, [
       Validators.required,
       Validators.pattern(ERegex.TELEFONE),
     ]),

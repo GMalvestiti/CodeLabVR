@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SaveAddActionComponent } from './save-add-action.component';
 
 describe('SaveAddActionComponent', () => {
@@ -8,9 +7,12 @@ describe('SaveAddActionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SaveAddActionComponent],
-    }).compileComponents();
+      imports: [ SaveAddActionComponent ]
+    })
+    .compileComponents();
+  });
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(SaveAddActionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

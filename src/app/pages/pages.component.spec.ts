@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { RouterOutlet } from '@angular/router';
+import { HttpClientTestingModule } from '@angular/common/http/testing'; // Import necessário
+import { LayoutComponent } from '../shared/components/layout/layout.component';
 import { PagesComponent } from './pages.component';
 
 describe('PagesComponent', () => {
@@ -8,7 +10,12 @@ describe('PagesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PagesComponent],
+      imports: [
+        HttpClientTestingModule,
+        LayoutComponent,
+        RouterOutlet,
+        PagesComponent
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(PagesComponent);
@@ -16,7 +23,7 @@ describe('PagesComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 });
